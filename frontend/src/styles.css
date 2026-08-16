@@ -1,3 +1,33 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'tailwindcss';
+@import './styles/tokens.css';
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-family-sans);
+  color: var(--color-text-primary);
+  background: var(--color-background);
+}
+
+.page-shell {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+
+.page-shell h1 {
+  margin: 0;
+  font-size: 1.875rem;
+  font-weight: 700;
+}
+
+.page-shell p {
+  margin: 0.5rem 0 0;
+  color: var(--color-text-tertiary);
+}

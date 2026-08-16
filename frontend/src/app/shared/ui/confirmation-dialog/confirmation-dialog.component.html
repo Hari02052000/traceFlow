@@ -1,0 +1,7 @@
+<app-modal [open]="open" [title]="title" size="sm" (closed)="cancelled.emit()">
+  <p class="confirmation-dialog__message">{{ message }}</p>
+  <div modal-footer class="confirmation-dialog__actions">
+    <app-button variant="secondary" (pressed)="cancelled.emit()">{{ cancelLabel }}</app-button>
+    <app-button [variant]="variant" (pressed)="confirmed.emit()">{{ confirmLabel }}</app-button>
+  </div>
+</app-modal>

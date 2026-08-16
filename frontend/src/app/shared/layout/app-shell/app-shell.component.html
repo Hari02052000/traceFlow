@@ -1,0 +1,8 @@
+<div class="app-shell">
+  <aside class="app-shell__sidebar"><app-sidebar-nav [items]="navigationItems()" /></aside>
+  <div class="app-shell__workspace">
+    <app-app-header (menuRequested)="mobileNavOpen.set(true)" (logoutRequested)="logoutRequested.emit()" />
+    <main class="app-shell__content"><router-outlet /></main>
+  </div>
+  <app-mobile-nav-drawer [open]="mobileNavOpen()" [items]="navigationItems()" (closed)="mobileNavOpen.set(false)" />
+</div>

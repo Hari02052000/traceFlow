@@ -1,0 +1,6 @@
+<select class="select" [id]="inputId || null" [value]="value() ?? ''" [disabled]="disabled()" [attr.aria-invalid]="invalid || null" [attr.aria-describedby]="describedBy || null" (change)="onSelect($event)" (blur)="markAsTouched()">
+  <option value="" disabled>{{ placeholder }}</option>
+  @for (option of options; track option.value) {
+    <option [value]="option.value" [disabled]="option.disabled ?? false">{{ option.label }}</option>
+  }
+</select>

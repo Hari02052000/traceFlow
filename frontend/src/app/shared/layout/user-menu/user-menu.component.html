@@ -1,0 +1,17 @@
+<div class="user-menu">
+  <button class="user-menu__trigger" type="button" aria-label="Open user menu" [attr.aria-expanded]="open()" (click)="open.update((value) => !value)">
+    <span class="user-menu__avatar" aria-hidden="true">U</span>
+  </button>
+  @if (open()) {
+    <div class="user-menu__panel" role="menu">
+      <a routerLink="/profile" role="menuitem" (click)="close()">Profile</a>
+      <div class="user-menu__theme" role="group" aria-label="Theme preference">
+        <span>Theme</span>
+        <button type="button" [class.is-selected]="preference() === 'system'" (click)="setTheme('system')">System</button>
+        <button type="button" [class.is-selected]="preference() === 'light'" (click)="setTheme('light')">Light</button>
+        <button type="button" [class.is-selected]="preference() === 'dark'" (click)="setTheme('dark')">Dark</button>
+      </div>
+      <button class="user-menu__logout" type="button" role="menuitem" (click)="logoutRequested.emit(); close()">Log out</button>
+    </div>
+  }
+</div>

@@ -1,0 +1,9 @@
+:host { display: block; min-height: 100%; }
+.app-shell { background: var(--color-background); min-height: 100vh; }
+.app-shell__sidebar { display: none; }
+.app-shell__workspace { min-height: 100vh; }
+.app-shell__content { box-sizing: border-box; min-width: 0; }
+@media (min-width: 64rem) {
+  .app-shell { display: grid; grid-template-columns: 16rem minmax(0, 1fr); }
+  .app-shell__sidebar { border-right: 1px solid var(--color-border); display: block; height: 100vh; position: sticky; top: 0; }
+}

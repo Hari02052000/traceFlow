@@ -1,0 +1,7 @@
+<div class="search-input">
+  <span class="search-input__icon" aria-hidden="true">⌕</span>
+  <input class="search-input__control" type="search" [id]="inputId || null" [value]="value() ?? ''" [placeholder]="placeholder" [disabled]="disabled()" [attr.aria-describedby]="describedBy || null" (input)="onInput($event)" (blur)="markAsTouched()" />
+  @if (value()) {
+    <button class="search-input__clear" type="button" [disabled]="disabled()" aria-label="Clear search" (click)="clear()">×</button>
+  }
+</div>

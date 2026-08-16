@@ -1,0 +1,2 @@
+.confirmation-dialog__message { color: var(--color-text-secondary); line-height: var(--line-height-relaxed); margin: 0; }
+.confirmation-dialog__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); justify-content: flex-end; }

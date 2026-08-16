@@ -1,0 +1,1 @@
+<textarea class="textarea" [id]="inputId || null" [value]="value() ?? ''" [placeholder]="placeholder" [rows]="rows" [disabled]="disabled()" [attr.aria-invalid]="invalid || null" [attr.aria-describedby]="describedBy || null" (input)="onInput($event)" (blur)="markAsTouched()"></textarea>

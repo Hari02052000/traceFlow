@@ -1,0 +1,16 @@
+<nav class="sidebar-nav" aria-label="Main navigation">
+  @if (showBrand) {
+    <a class="sidebar-nav__brand" routerLink="/dashboard" (click)="navigated.emit()">
+      <span class="sidebar-nav__brand-mark" aria-hidden="true">T</span>
+      <span>TraceFlow</span>
+    </a>
+  }
+  <div class="sidebar-nav__links">
+    @for (item of items; track item.route) {
+      <a class="sidebar-nav__link" [routerLink]="item.route" routerLinkActive="sidebar-nav__link--active" (click)="navigated.emit()">
+        <span class="sidebar-nav__icon" aria-hidden="true">{{ item.icon }}</span>
+        <span>{{ item.label }}</span>
+      </a>
+    }
+  </div>
+</nav>
