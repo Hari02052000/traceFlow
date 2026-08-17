@@ -19,6 +19,8 @@ export const selectTraceEvents = createSelector(selectBatchDetail, (detail) => d
 export const selectBatchDetailLoading = createSelector(selectBatchDetail, (detail) => detail.loading);
 export const selectBatchDetailError = createSelector(selectBatchDetail, (detail) => detail.error);
 export const selectBatchDetailUpdateError = createSelector(selectBatchDetail, (detail) => detail.updateError);
+export const selectBatchDetailUpdateLoading = createSelector(selectBatchDetail, (detail) => detail.updateLoading);
+export const selectBatchDetailArchiveError = createSelector(selectBatchDetail, (detail) => detail.archiveError);
 
 // Create
 const selectBatchCreate = createSelector(selectBatchState, (state) => state.create);

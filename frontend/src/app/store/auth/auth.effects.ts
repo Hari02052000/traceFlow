@@ -19,7 +19,7 @@ export class AuthEffects {
       exhaustMap(({ credentials }) =>
         this.authService.login(credentials).pipe(
           map((user) => AuthActions.loginSuccess({ user })),
-          catchError((err) => of(AuthActions.loginFailure({ error: err.error?.message ?? 'Login failed.' }))),
+          catchError((err) => of(AuthActions.loginFailure({ error: err.error?.error?.message ?? 'Login failed.' }))),
         ),
       ),
     ),
@@ -43,7 +43,7 @@ export class AuthEffects {
       exhaustMap(({ data }) =>
         this.authService.register(data).pipe(
           map((user) => AuthActions.registerSuccess({ user })),
-          catchError((err) => of(AuthActions.registerFailure({ error: err.error?.message ?? 'Registration failed.' }))),
+          catchError((err) => of(AuthActions.registerFailure({ error: err.error?.error?.message ?? 'Registration failed.' }))),
         ),
       ),
     ),
@@ -79,6 +79,18 @@ export class AuthEffects {
         ofType(AuthActions.logoutComplete),
         tap(() => {
           this.toast.show('Logged out.', 'info');
+          this.router.navigate(['/login']);
+        }),
+      ),
+    { dispatch: false },
+  );
+
+  readonly sessionExpired$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.sessionExpired),
+        tap(() => {
+          this.toast.show('Session expired. Please log in again.', 'error');
           this.router.navigate(['/login']);
         }),
       ),

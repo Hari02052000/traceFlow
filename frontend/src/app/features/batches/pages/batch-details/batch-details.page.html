@@ -26,6 +26,11 @@
             <app-button variant="secondary" (pressed)="archiveBatch()">Archive</app-button>
           }
         </div>
+        @if (archiveError()) {
+          <div class="rounded-tf-md border border-tf-danger bg-tf-danger-subtle px-tf-4 py-tf-3 text-sm text-tf-primary">
+            {{ archiveError() }}
+          </div>
+        }
       </div>
 
       <div class="mb-tf-8 grid grid-cols-1 gap-tf-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -97,7 +102,7 @@
         </app-form-field>
         <div class="flex justify-end gap-tf-3">
           <app-button variant="secondary" type="button" (pressed)="closeDrawer()">Cancel</app-button>
-          <app-button type="submit" [loading]="loading()">Update Status</app-button>
+          <app-button type="submit" [loading]="updateLoading()">Update Status</app-button>
         </div>
       </form>
     </app-drawer>

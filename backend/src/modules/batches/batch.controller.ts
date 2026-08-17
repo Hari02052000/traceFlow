@@ -35,7 +35,7 @@ export class BatchController {
 
   async archive(req: Request, res: Response): Promise<void> {
     const id = req.params['id'] as string;
-    const batch = await batchService.archiveBatch(id);
+    const batch = await batchService.archiveBatch(id, req.user!.id);
     sendSuccess(res, batch);
   }
 

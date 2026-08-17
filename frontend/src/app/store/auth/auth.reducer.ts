@@ -5,12 +5,14 @@ import * as AuthActions from './auth.actions';
 export interface AuthState {
   user: User | null;
   loading: boolean;
+  loaded: boolean;
   error: string | null;
 }
 
 const initialState: AuthState = {
   user: null,
   loading: false,
+  loaded: false,
   error: null,
 };
 
@@ -29,6 +31,6 @@ export const authReducer = createReducer(
   on(AuthActions.logoutComplete, () => initialState),
 
   on(AuthActions.loadUser, (state) => ({ ...state, loading: true })),
-  on(AuthActions.loadUserSuccess, (state, { user }) => ({ ...state, user, loading: false })),
-  on(AuthActions.loadUserFailure, (state) => ({ ...state, loading: false })),
+  on(AuthActions.loadUserSuccess, (state, { user }) => ({ ...state, user, loading: false, loaded: true })),
+  on(AuthActions.loadUserFailure, (state) => ({ ...state, loading: false, loaded: true })),
 );

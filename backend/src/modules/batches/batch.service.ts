@@ -70,7 +70,7 @@ export class BatchService {
     return this.formatBatch(updated!);
   }
 
-  async archiveBatch(batchId: string) {
+  async archiveBatch(batchId: string, userId: string) {
     const batch = await batchRepository.findById(batchId);
     if (!batch) {
       throw new AppError('Batch not found', 404, 'BATCH_NOT_FOUND');
@@ -81,6 +81,15 @@ export class BatchService {
     }
 
     const updated = await batchRepository.updateStatus(batchId, 'ARCHIVED');
+
+    await traceEventRepository.create({
+      batchId,
+      status: 'ARCHIVED',
+      location: 'System',
+      notes: 'Batch archived',
+      updatedBy: userId,
+    });
+
     return this.formatBatch(updated!);
   }
 

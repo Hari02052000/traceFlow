@@ -15,9 +15,9 @@ import { LoadingSpinnerComponent } from '../../../../shared/ui/loading-spinner/l
 import { SelectComponent, SelectOption } from '../../../../shared/ui/select/select.component';
 import { StatusBadgeComponent } from '../../../../shared/ui/status-badge/status-badge.component';
 import { TextareaComponent } from '../../../../shared/ui/textarea/textarea.component';
-import { BATCH_STATUS_LABELS, BATCH_STATUSES, BatchStatus } from '../../../../core/models/batch.models';
+import { BATCH_STATUS_LABELS, BatchStatus } from '../../../../core/models/batch.models';
 import { archiveBatch, loadBatch, updateBatchStatus } from '../../../../store/batch/batch.actions';
-import { selectBatchDetailError, selectBatchDetailLoading, selectBatchDetailUpdateError, selectCurrentBatch, selectTraceEvents } from '../../../../store/batch/batch.selectors';
+import { selectBatchDetailArchiveError, selectBatchDetailError, selectBatchDetailLoading, selectBatchDetailUpdateError, selectBatchDetailUpdateLoading, selectCurrentBatch, selectTraceEvents } from '../../../../store/batch/batch.selectors';
 import { selectUserRole } from '../../../../store/auth/auth.selectors';
 
 @Component({
@@ -37,7 +37,9 @@ export class BatchDetailsPage implements OnInit, OnDestroy {
   protected readonly traceEvents = this.store.selectSignal(selectTraceEvents);
   protected readonly loading = this.store.selectSignal(selectBatchDetailLoading);
   protected readonly batchError = this.store.selectSignal(selectBatchDetailError);
+  protected readonly updateLoading = this.store.selectSignal(selectBatchDetailUpdateLoading);
   protected readonly updateError = this.store.selectSignal(selectBatchDetailUpdateError);
+  protected readonly archiveError = this.store.selectSignal(selectBatchDetailArchiveError);
   protected readonly role = this.store.selectSignal(selectUserRole);
   protected readonly drawerOpen = signal(false);
   protected readonly submitted = signal(false);
@@ -45,8 +47,8 @@ export class BatchDetailsPage implements OnInit, OnDestroy {
 
   private readonly closeDrawerOnSuccess = effect(() => {
     const error = this.updateError();
-    const loading = this.loading();
-    if (!loading && !error && this.updateSuccess()) {
+    const updating = this.updateLoading();
+    if (!updating && !error && this.updateSuccess()) {
       this.updateSuccess.set(false);
       this.drawerOpen.set(false);
       this.form.reset({ status: '', location: '', notes: '' });
@@ -58,11 +60,6 @@ export class BatchDetailsPage implements OnInit, OnDestroy {
     location: ['', Validators.required],
     notes: [''],
   });
-
-  protected readonly statusOptions: SelectOption[] = BATCH_STATUSES.map((s) => ({
-    value: s,
-    label: BATCH_STATUS_LABELS[s],
-  }));
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -78,9 +75,14 @@ export class BatchDetailsPage implements OnInit, OnDestroy {
   protected openDrawer(): void {
     const currentStatus = this.batch()?.currentStatus;
     if (currentStatus) {
-      const currentIndex = BATCH_STATUSES.indexOf(currentStatus);
-      const nextStatuses = BATCH_STATUSES.slice(currentIndex + 1);
-      this.form.controls.status.setValue(nextStatuses[0] ?? '');
+      const transitions: Partial<Record<BatchStatus, BatchStatus>> = {
+        HARVESTED: 'PROCESSING',
+        PROCESSING: 'QUALITY_CHECK',
+        QUALITY_CHECK: 'IN_TRANSIT',
+        IN_TRANSIT: 'DELIVERED',
+      };
+      const next = transitions[currentStatus];
+      this.form.controls.status.setValue(next ?? '');
     }
     this.form.controls.location.setValue('');
     this.form.controls.notes.setValue('');
@@ -115,11 +117,18 @@ export class BatchDetailsPage implements OnInit, OnDestroy {
   protected nextStatuses(): SelectOption[] {
     const currentStatus = this.batch()?.currentStatus;
     if (!currentStatus) return [];
-    const currentIndex = BATCH_STATUSES.indexOf(currentStatus);
-    return BATCH_STATUSES.slice(currentIndex + 1).map((s) => ({
-      value: s,
-      label: BATCH_STATUS_LABELS[s],
-    }));
+
+    const transitions: Partial<Record<BatchStatus, BatchStatus>> = {
+      HARVESTED: 'PROCESSING',
+      PROCESSING: 'QUALITY_CHECK',
+      QUALITY_CHECK: 'IN_TRANSIT',
+      IN_TRANSIT: 'DELIVERED',
+    };
+
+    const next = transitions[currentStatus];
+    if (!next) return [];
+
+    return [{ value: next, label: BATCH_STATUS_LABELS[next] }];
   }
 
   protected archiveBatch(): void {

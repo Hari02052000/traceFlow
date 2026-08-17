@@ -21,6 +21,6 @@ export const batchListQuerySchema = z.object({
   limit: z.coerce.number().int().positive().max(100).optional().default(10),
   search: z.string().optional(),
   status: batchStatusEnum.optional(),
-  sort: z.string().optional(),
+  sort: z.enum(['createdAt', 'updatedAt', 'batchNumber', 'productName']).optional(),
   order: z.enum(['asc', 'desc']).optional(),
 });

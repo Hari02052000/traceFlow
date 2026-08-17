@@ -17,7 +17,9 @@ export interface BatchDetailState {
   traceEvents: TraceEvent[];
   loading: boolean;
   error: string | null;
+  updateLoading: boolean;
   updateError: string | null;
+  archiveError: string | null;
 }
 
 export interface BatchCreateState {
@@ -56,7 +58,9 @@ const initialDetailState: BatchDetailState = {
   traceEvents: [],
   loading: false,
   error: null,
+  updateLoading: false,
   updateError: null,
+  archiveError: null,
 };
 
 const initialCreateState: BatchCreateState = {
@@ -150,25 +154,33 @@ export const batchReducer = createReducer(
   // Update status
   on(BatchActions.updateBatchStatus, (state) => ({
     ...state,
-    detail: { ...state.detail, updateError: null },
+    detail: { ...state.detail, updateLoading: true, updateError: null },
   })),
   on(BatchActions.updateBatchStatusSuccess, (state, { batch }) => ({
     ...state,
-    detail: { ...state.detail, batch, updateError: null },
+    detail: { ...state.detail, batch, updateLoading: false, updateError: null },
   })),
   on(BatchActions.updateBatchStatusFailure, (state, { error }) => ({
     ...state,
-    detail: { ...state.detail, updateError: error },
+    detail: { ...state.detail, updateLoading: false, updateError: error },
   })),
 
   // Archive
+  on(BatchActions.archiveBatch, (state) => ({
+    ...state,
+    detail: { ...state.detail, archiveError: null },
+  })),
   on(BatchActions.archiveBatchSuccess, (state, { batch }) => ({
     ...state,
     list: {
       ...state.list,
       batches: state.list.batches.map((b) => (b.id === batch.id ? batch : b)),
     },
-    detail: { ...state.detail, batch },
+    detail: { ...state.detail, batch, archiveError: null },
+  })),
+  on(BatchActions.archiveBatchFailure, (state, { error }) => ({
+    ...state,
+    detail: { ...state.detail, archiveError: error },
   })),
 
   // Dashboard

@@ -4,8 +4,8 @@ import { sendSuccess } from '../../utils/response';
 
 export class AuthController {
   async register(req: Request, res: Response): Promise<void> {
-    const result = await authService.register(req.body);
-    sendSuccess(res, result.user, 201);
+    const user = await authService.register(req.body, res);
+    sendSuccess(res, user, 201);
   }
 
   async login(req: Request, res: Response): Promise<void> {

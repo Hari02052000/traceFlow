@@ -11,6 +11,7 @@ export const registerFailure = createAction('[Auth] Register Failure', props<{ e
 
 export const logout = createAction('[Auth] Logout');
 export const logoutComplete = createAction('[Auth] Logout Complete');
+export const sessionExpired = createAction('[Auth] Session Expired');
 
 export const loadUser = createAction('[Auth] Load User');
 export const loadUserSuccess = createAction('[Auth] Load User Success', props<{ user: User }>());

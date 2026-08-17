@@ -19,7 +19,7 @@ export class BatchEffects {
       switchMap(({ params }) =>
         this.batchService.getBatches(params).pipe(
           map((response) => BatchActions.loadBatchesSuccess({ response })),
-          catchError((err) => of(BatchActions.loadBatchesFailure({ error: err.error?.message ?? 'Failed to load batches.' }))),
+          catchError((err) => of(BatchActions.loadBatchesFailure({ error: err.error?.error?.message ?? 'Failed to load batches.' }))),
         ),
       ),
     ),
@@ -31,7 +31,7 @@ export class BatchEffects {
       switchMap(({ id }) =>
         this.batchService.getBatch(id).pipe(
           map((batch) => BatchActions.loadBatchSuccess({ batch })),
-          catchError((err) => of(BatchActions.loadBatchFailure({ error: err.error?.message ?? 'Failed to load batch.' }))),
+          catchError((err) => of(BatchActions.loadBatchFailure({ error: err.error?.error?.message ?? 'Failed to load batch.' }))),
         ),
       ),
     ),
@@ -55,7 +55,7 @@ export class BatchEffects {
       exhaustMap(({ data }) =>
         this.batchService.createBatch(data).pipe(
           map((batch) => BatchActions.createBatchSuccess({ batch })),
-          catchError((err) => of(BatchActions.createBatchFailure({ error: err.error?.message ?? 'Failed to create batch.' }))),
+          catchError((err) => of(BatchActions.createBatchFailure({ error: err.error?.error?.message ?? 'Failed to create batch.' }))),
         ),
       ),
     ),
@@ -79,7 +79,7 @@ export class BatchEffects {
       exhaustMap(({ id, data }) =>
         this.batchService.updateBatchStatus(id, data).pipe(
           map((batch) => BatchActions.updateBatchStatusSuccess({ batch })),
-          catchError((err) => of(BatchActions.updateBatchStatusFailure({ error: err.error?.message ?? 'Failed to update status.' }))),
+          catchError((err) => of(BatchActions.updateBatchStatusFailure({ error: err.error?.error?.message ?? 'Failed to update status.' }))),
         ),
       ),
     ),
@@ -100,7 +100,7 @@ export class BatchEffects {
       exhaustMap(({ id }) =>
         this.batchService.archiveBatch(id).pipe(
           map((batch) => BatchActions.archiveBatchSuccess({ batch })),
-          catchError((err) => of(BatchActions.archiveBatchFailure({ error: err.error?.message ?? 'Failed to archive batch.' }))),
+          catchError((err) => of(BatchActions.archiveBatchFailure({ error: err.error?.error?.message ?? 'Failed to archive batch.' }))),
         ),
       ),
     ),
@@ -111,6 +111,15 @@ export class BatchEffects {
       this.actions$.pipe(
         ofType(BatchActions.archiveBatchSuccess),
         tap(() => this.toast.show('Batch archived successfully.', 'success')),
+      ),
+    { dispatch: false },
+  );
+
+  readonly archiveBatchFailure$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(BatchActions.archiveBatchFailure),
+        tap(({ error }) => this.toast.show(error, 'error')),
       ),
     { dispatch: false },
   );

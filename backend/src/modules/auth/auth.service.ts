@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import { config } from '../../config/env';
 import { AppError } from '../../errors/app-error';
 import { userRepository } from '../users/user.repository';
+import { IUser } from '../users/user.model';
 import { JwtPayload } from './auth.types';
 import { Response } from 'express';
 
@@ -22,12 +23,12 @@ function setAuthCookie(res: Response, token: string): void {
   });
 }
 
-function toUserResponse(user: any) {
+function toUserResponse(user: IUser) {
   return { id: user._id.toString(), name: user.name, email: user.email, role: user.role };
 }
 
 export class AuthService {
-  async register(data: { name: string; email: string; password: string }) {
+  async register(data: { name: string; email: string; password: string }, res: Response) {
     const existing = await userRepository.findByEmail(data.email);
     if (existing) {
       throw new AppError('Email already registered', 409, 'DUPLICATE_EMAIL');
@@ -37,7 +38,10 @@ export class AuthService {
     const user = await userRepository.create({ ...data, passwordHash });
 
     const tokenPayload: JwtPayload = { id: user._id.toString(), email: user.email, name: user.name, role: user.role };
-    return { user: toUserResponse(user), token: signToken(tokenPayload) };
+    const token = signToken(tokenPayload);
+    setAuthCookie(res, token);
+
+    return toUserResponse(user);
   }
 
   async login(data: { email: string; password: string }, res: Response) {
