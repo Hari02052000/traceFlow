@@ -9,7 +9,7 @@ import { ValueAccessor } from '../form-controls/control-value-accessor';
   providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => InputComponent), multi: true }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InputComponent extends ValueAccessor<string> {
+export class InputComponent extends ValueAccessor<string | number> {
   @Input() inputId = '';
   @Input() type: 'text' | 'email' | 'number' | 'tel' | 'url' = 'text';
   @Input() placeholder = '';
@@ -18,6 +18,7 @@ export class InputComponent extends ValueAccessor<string> {
   @Input() describedBy = '';
 
   protected onInput(event: Event): void {
-    this.updateValue((event.target as HTMLInputElement).value);
+    const raw = (event.target as HTMLInputElement).value;
+    this.updateValue(this.type === 'number' ? (raw === '' ? null : Number(raw)) : raw);
   }
 }
