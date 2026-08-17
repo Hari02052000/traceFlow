@@ -3,7 +3,7 @@
     <app-sidebar-nav [items]="navigationItems()" />
   </aside>
   <div class="min-h-screen">
-    <app-app-header (menuRequested)="mobileNavOpen.set(true)" (logoutRequested)="logoutRequested.emit()" />
+    <app-app-header (menuRequested)="mobileNavOpen.set(true)" (logoutRequested)="onLogout()" />
     <main class="box-border min-w-0"><router-outlet /></main>
   </div>
   <app-mobile-nav-drawer [open]="mobileNavOpen()" [items]="navigationItems()" (closed)="mobileNavOpen.set(false)" />

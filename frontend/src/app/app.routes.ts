@@ -1,21 +1,27 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/guards/auth.guard';
+import { adminGuard } from './core/guards/admin.guard';
+import { noAuthGuard } from './core/guards/no-auth.guard';
 
 export const routes: Routes = [
   {
     path: 'login',
     title: 'Login | TraceFlow',
+    canMatch: [noAuthGuard],
     loadComponent: () => import('./features/auth/pages/login/login.page').then((m) => m.LoginPage),
   },
   {
     path: 'register',
     title: 'Register | TraceFlow',
+    canMatch: [noAuthGuard],
     loadComponent: () => import('./features/auth/pages/register/register.page').then((m) => m.RegisterPage),
   },
   {
     path: '',
+    canMatch: [authGuard],
     loadComponent: () => import('./shared/layout/app-shell/app-shell.component').then((m) => m.AppShellComponent),
     children: [
-      { path: '', pathMatch: 'full', redirectTo: '/login' },
+      { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
       {
         path: 'dashboard',
         title: 'Dashboard | TraceFlow',
@@ -34,6 +40,7 @@ export const routes: Routes = [
       {
         path: 'admin/batches/create',
         title: 'Create batch | TraceFlow',
+        canMatch: [adminGuard],
         loadComponent: () => import('./features/batches/pages/create-batch/create-batch.page').then((m) => m.CreateBatchPage),
       },
       {

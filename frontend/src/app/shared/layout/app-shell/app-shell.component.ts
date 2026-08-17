@@ -1,9 +1,12 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Output, computed, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { AppHeaderComponent } from '../app-header/app-header.component';
 import { MobileNavDrawerComponent } from '../mobile-nav-drawer/mobile-nav-drawer.component';
 import { NAVIGATION_ITEMS, UserRole } from '../navigation/navigation.model';
 import { SidebarNavComponent } from '../sidebar-nav/sidebar-nav.component';
+import { selectUserRole } from '../../../store/auth/auth.selectors';
+import { logout } from '../../../store/auth/auth.actions';
 
 @Component({
   selector: 'app-app-shell',
@@ -13,12 +16,15 @@ import { SidebarNavComponent } from '../sidebar-nav/sidebar-nav.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppShellComponent {
-  /** Supplied by auth state later; defaults to the operator navigation for now. */
-  readonly role = input<UserRole>('OPERATOR');
-  @Output() logoutRequested = new EventEmitter<void>();
+  private readonly store = inject(Store);
 
   protected readonly mobileNavOpen = signal(false);
-  protected readonly navigationItems = computed(() =>
-    NAVIGATION_ITEMS.filter((item) => item.roles.includes(this.role())),
-  );
+  protected readonly navigationItems = computed(() => {
+    const role = this.store.selectSignal(selectUserRole)() ?? 'OPERATOR' as UserRole;
+    return NAVIGATION_ITEMS.filter((item) => item.roles.includes(role));
+  });
+
+  protected onLogout(): void {
+    this.store.dispatch(logout());
+  }
 }

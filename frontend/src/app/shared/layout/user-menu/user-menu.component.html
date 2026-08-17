@@ -1,6 +1,6 @@
 <div class="relative">
   <button class="cursor-pointer rounded-tf-md border-0 bg-transparent p-0 focus-visible:outline-2 focus-visible:outline-tf-focus focus-visible:outline-offset-2" type="button" aria-label="Open user menu" [attr.aria-expanded]="open()" (click)="open.update((value) => !value)">
-    <span class="inline-flex size-9 items-center justify-center rounded-full bg-tf-surface-selected text-sm font-bold text-tf-action" aria-hidden="true">U</span>
+    <span class="inline-flex size-9 items-center justify-center rounded-full bg-tf-surface-selected text-sm font-bold text-tf-action" aria-hidden="true">{{ userInitial() }}</span>
   </button>
   @if (open()) {
     <div class="absolute right-0 top-full z-[var(--z-index-menu)] mt-tf-2 grid min-w-[12rem] gap-tf-1 rounded-tf-md border border-tf-border bg-tf-surface-raised p-tf-2 shadow-tf-md" role="menu">

@@ -1,4 +1,6 @@
-export type UserRole = 'ADMIN' | 'OPERATOR';
+import { UserRole } from '../../../core/models/auth.models';
+
+export type { UserRole };
 
 export interface NavigationItem {
   label: string;

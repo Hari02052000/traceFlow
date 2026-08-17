@@ -12,6 +12,11 @@
     <app-card variant="outlined" padding="lg">
       <div class="grid w-full max-w-md gap-tf-8">
         <div class="grid gap-tf-2"><p class="m-0 text-sm font-semibold tracking-[0.04em] text-tf-action uppercase">Welcome back</p><h2 id="login-title" class="m-0 text-2xl leading-tight font-bold text-tf-primary">Sign in to TraceFlow</h2><p class="m-0 text-sm leading-normal text-tf-secondary">Enter your account details to continue.</p></div>
+
+        @if (error() && !errorDismissed()) {
+          <app-alert variant="danger" [dismissible]="true" (dismissed)="dismissError()">{{ error() }}</app-alert>
+        }
+
         <form class="grid gap-tf-5" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
           <app-form-field controlId="login-email" label="Email address" [required]="true" [error]="showError('email') ? errorMessage('email') : ''">
             <app-input inputId="login-email" type="email" autocomplete="email" placeholder="you@company.com" formControlName="email" [invalid]="showError('email')" [describedBy]="showError('email') ? 'login-email-error' : ''" />
@@ -20,7 +25,7 @@
             <app-password-input inputId="login-password" autocomplete="current-password" placeholder="Enter your password" formControlName="password" [invalid]="showError('password')" [describedBy]="showError('password') ? 'login-password-error' : ''" />
           </app-form-field>
           <div class="flex items-center justify-between gap-tf-3"><app-checkbox inputId="remember-me" label="Remember me" formControlName="rememberMe" /><button class="cursor-pointer border-0 bg-transparent p-0 text-sm text-tf-link focus-visible:outline-2 focus-visible:outline-tf-focus focus-visible:outline-offset-3" type="button">Forgot password?</button></div>
-          <app-button type="submit" [fullWidth]="true">Sign in</app-button>
+          <app-button type="submit" [fullWidth]="true" [loading]="loading()">Sign in</app-button>
         </form>
         <p class="m-0 text-sm leading-normal text-tf-secondary">New to TraceFlow? <a class="font-semibold text-tf-link focus-visible:outline-2 focus-visible:outline-tf-focus focus-visible:outline-offset-3" routerLink="/register">Create an operator account</a></p>
       </div>

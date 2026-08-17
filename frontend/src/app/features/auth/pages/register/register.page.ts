@@ -1,12 +1,16 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { AbstractControl, FormBuilder, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AlertComponent } from '../../../../shared/ui/alert/alert.component';
 import { ButtonComponent } from '../../../../shared/ui/button/button.component';
 import { CardComponent } from '../../../../shared/ui/card/card.component';
 import { CheckboxComponent } from '../../../../shared/ui/checkbox/checkbox.component';
 import { FormFieldComponent } from '../../../../shared/ui/form-field/form-field.component';
 import { InputComponent } from '../../../../shared/ui/input/input.component';
 import { PasswordInputComponent } from '../../../../shared/ui/password-input/password-input.component';
+import { selectAuthError, selectAuthLoading } from '../../../../store/auth/auth.selectors';
+import { register } from '../../../../store/auth/auth.actions';
 
 const passwordsMatch: ValidatorFn = (control: AbstractControl): ValidationErrors | null =>
   control.get('password')?.value === control.get('confirmPassword')?.value ? null : { passwordMismatch: true };
@@ -14,13 +18,17 @@ const passwordsMatch: ValidatorFn = (control: AbstractControl): ValidationErrors
 @Component({
   selector: 'app-register-page',
   standalone: true,
-  imports: [ButtonComponent, CardComponent, CheckboxComponent, FormFieldComponent, InputComponent, PasswordInputComponent, ReactiveFormsModule, RouterLink],
+  imports: [AlertComponent, ButtonComponent, CardComponent, CheckboxComponent, FormFieldComponent, InputComponent, PasswordInputComponent, ReactiveFormsModule, RouterLink],
   templateUrl: './register.page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegisterPage {
   private readonly formBuilder = inject(FormBuilder);
+  private readonly store = inject(Store);
   protected readonly submitted = signal(false);
+  protected readonly errorDismissed = signal(false);
+  protected readonly loading = this.store.selectSignal(selectAuthLoading);
+  protected readonly error = this.store.selectSignal(selectAuthError);
   protected readonly form = this.formBuilder.nonNullable.group(
     {
       name: ['', [Validators.required, Validators.minLength(2)]],
@@ -47,8 +55,18 @@ export class RegisterPage {
     return '';
   }
 
+  protected dismissError(): void {
+    this.errorDismissed.set(true);
+  }
+
   protected onSubmit(): void {
     this.submitted.set(true);
+    this.errorDismissed.set(false);
     this.form.markAllAsTouched();
+
+    if (this.form.valid) {
+      const { name, email, password } = this.form.getRawValue();
+      this.store.dispatch(register({ data: { name, email, password } }));
+    }
   }
 }

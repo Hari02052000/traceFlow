@@ -12,6 +12,11 @@
     <app-card variant="outlined" padding="lg">
       <div class="grid w-full max-w-md gap-tf-8">
         <div class="grid gap-tf-2"><p class="m-0 text-sm font-semibold tracking-[0.04em] text-tf-action uppercase">Create account</p><h2 id="register-title" class="m-0 text-2xl leading-tight font-bold text-tf-primary">Join TraceFlow</h2><p class="m-0 text-sm leading-normal text-tf-secondary">New accounts are created as operator accounts.</p></div>
+
+        @if (error() && !errorDismissed()) {
+          <app-alert variant="danger" [dismissible]="true" (dismissed)="dismissError()">{{ error() }}</app-alert>
+        }
+
         <form class="grid gap-tf-5" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
           <app-form-field controlId="register-name" label="Full name" [required]="true" [error]="showError('name') ? errorMessage('name') : ''">
             <app-input inputId="register-name" autocomplete="name" placeholder="Your full name" formControlName="name" [invalid]="showError('name')" [describedBy]="showError('name') ? 'register-name-error' : ''" />
@@ -26,7 +31,7 @@
             <app-password-input inputId="register-confirm-password" autocomplete="new-password" placeholder="Repeat your password" formControlName="confirmPassword" [invalid]="showError('confirmPassword')" [describedBy]="showError('confirmPassword') ? 'register-confirm-password-error' : ''" />
           </app-form-field>
           <div class="grid gap-tf-2"><app-checkbox inputId="accepted-terms" label="I agree to the TraceFlow terms and privacy policy." formControlName="acceptedTerms" />@if (showError('acceptedTerms')) { <p class="m-0 text-xs leading-normal text-tf-danger">{{ errorMessage('acceptedTerms') }}</p> }</div>
-          <app-button type="submit" [fullWidth]="true">Create account</app-button>
+          <app-button type="submit" [fullWidth]="true" [loading]="loading()">Create account</app-button>
         </form>
         <p class="m-0 text-sm leading-normal text-tf-secondary">Already have an account? <a class="font-semibold text-tf-link focus-visible:outline-2 focus-visible:outline-tf-focus focus-visible:outline-offset-3" routerLink="/login">Sign in</a></p>
       </div>
