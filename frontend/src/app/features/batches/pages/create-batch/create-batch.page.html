@@ -1,0 +1,42 @@
+<main class="p-tf-6 lg:p-tf-10">
+  <div class="mx-auto max-w-2xl">
+    <app-page-header title="Create Batch" description="Add a new product batch to the system." />
+
+    <app-card variant="outlined" padding="lg">
+      @if (error() && !errorDismissed()) {
+        <app-alert variant="danger" [dismissible]="true" (dismissed)="dismissError()" class="mb-tf-6 block">{{ error() }}</app-alert>
+      }
+
+      <form class="grid gap-tf-5" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+        <div class="grid grid-cols-1 gap-tf-5 sm:grid-cols-2">
+          <app-form-field controlId="batch-number" label="Batch number" [required]="true" [error]="showError('batchNumber') ? errorMessage('batchNumber') : ''">
+            <app-input inputId="batch-number" placeholder="e.g. COF-1024" formControlName="batchNumber" [invalid]="showError('batchNumber')" [describedBy]="showError('batchNumber') ? 'batch-number-error' : ''" />
+          </app-form-field>
+
+          <app-form-field controlId="product-name" label="Product name" [required]="true" [error]="showError('productName') ? errorMessage('productName') : ''">
+            <app-input inputId="product-name" placeholder="e.g. Arabica Coffee Beans" formControlName="productName" [invalid]="showError('productName')" [describedBy]="showError('productName') ? 'product-name-error' : ''" />
+          </app-form-field>
+        </div>
+
+        <app-form-field controlId="origin" label="Origin" [required]="true" [error]="showError('origin') ? errorMessage('origin') : ''">
+          <app-input inputId="origin" placeholder="e.g. Wayanad Farm, Kerala" formControlName="origin" [invalid]="showError('origin')" [describedBy]="showError('origin') ? 'origin-error' : ''" />
+        </app-form-field>
+
+        <div class="grid grid-cols-1 gap-tf-5 sm:grid-cols-2">
+          <app-form-field controlId="quantity" label="Quantity" [required]="true" [error]="showError('quantity') ? errorMessage('quantity') : ''">
+            <app-input inputId="quantity" type="number" placeholder="0" formControlName="quantity" [invalid]="showError('quantity')" [describedBy]="showError('quantity') ? 'quantity-error' : ''" />
+          </app-form-field>
+
+          <app-form-field controlId="unit" label="Unit" [required]="true" [error]="showError('unit') ? errorMessage('unit') : ''">
+            <app-input inputId="unit" placeholder="e.g. kg, boxes, liters" formControlName="unit" [invalid]="showError('unit')" [describedBy]="showError('unit') ? 'unit-error' : ''" />
+          </app-form-field>
+        </div>
+
+        <div class="flex justify-end gap-tf-3 pt-tf-2">
+          <app-button variant="secondary" type="button" routerLink="/batches">Cancel</app-button>
+          <app-button type="submit" [loading]="loading()">Create Batch</app-button>
+        </div>
+      </form>
+    </app-card>
+  </div>
+</main>

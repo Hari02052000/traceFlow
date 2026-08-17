@@ -1,0 +1,74 @@
+<main class="p-tf-6 lg:p-tf-10">
+  <div class="mx-auto max-w-7xl">
+    <div class="mb-tf-8">
+      <h1 class="m-0 mb-tf-1 text-2xl font-bold text-tf-primary md:text-3xl">Dashboard</h1>
+      <p class="m-0 text-sm text-tf-secondary">Overview of your supply chain traceability.</p>
+    </div>
+
+    <div class="mb-tf-8 grid grid-cols-1 gap-tf-4 sm:grid-cols-3">
+      <app-card padding="lg">
+        <div class="grid gap-tf-1">
+          <p class="m-0 text-sm font-medium text-tf-secondary">Total Batches</p>
+          @if (statsLoading()) {
+            <div class="size-8 animate-pulse rounded bg-tf-surface-subtle"></div>
+          } @else {
+            <p class="m-0 text-3xl font-bold text-tf-primary">{{ stats()?.totalBatches ?? 0 }}</p>
+          }
+        </div>
+      </app-card>
+
+      <app-card padding="lg">
+        <div class="grid gap-tf-1">
+          <p class="m-0 text-sm font-medium text-tf-secondary">In Transit</p>
+          @if (statsLoading()) {
+            <div class="size-8 animate-pulse rounded bg-tf-surface-subtle"></div>
+          } @else {
+            <p class="m-0 text-3xl font-bold text-tf-info">{{ stats()?.inTransit ?? 0 }}</p>
+          }
+        </div>
+      </app-card>
+
+      <app-card padding="lg">
+        <div class="grid gap-tf-1">
+          <p class="m-0 text-sm font-medium text-tf-secondary">Delivered</p>
+          @if (statsLoading()) {
+            <div class="size-8 animate-pulse rounded bg-tf-surface-subtle"></div>
+          } @else {
+            <p class="m-0 text-3xl font-bold text-tf-success">{{ stats()?.delivered ?? 0 }}</p>
+          }
+        </div>
+      </app-card>
+    </div>
+
+    <div>
+      <div class="mb-tf-4 flex items-center justify-between">
+        <h2 class="m-0 text-lg font-semibold text-tf-primary">Recent Batches</h2>
+        <a class="text-sm font-medium text-tf-link no-underline hover:underline focus-visible:outline-2 focus-visible:outline-tf-focus focus-visible:outline-offset-2" routerLink="/batches">View all</a>
+      </div>
+
+      <app-card variant="outlined" padding="none">
+        @if (recentLoading()) {
+          <div class="flex items-center justify-center p-tf-10">
+            <app-loading-spinner size="md" />
+          </div>
+        } @else if (recentBatches().length === 0) {
+          <div class="p-tf-10 text-center">
+            <p class="m-0 text-sm text-tf-secondary">No batches found.</p>
+          </div>
+        } @else {
+          <div class="divide-y divide-tf-border">
+            @for (batch of recentBatches(); track batch.id) {
+              <a class="flex items-center justify-between gap-tf-4 px-tf-5 py-tf-4 no-underline transition-colors hover:bg-tf-action-secondary-hover" [routerLink]="['/batches', batch.id]">
+                <div class="min-w-0 flex-1">
+                  <p class="m-0 truncate text-sm font-medium text-tf-primary">{{ batch.batchNumber }}</p>
+                  <p class="m-0 truncate text-xs text-tf-secondary">{{ batch.productName }} &middot; {{ batch.origin }}</p>
+                </div>
+                <app-status-badge [status]="batch.currentStatus" />
+              </a>
+            }
+          </div>
+        }
+      </app-card>
+    </div>
+  </div>
+</main>

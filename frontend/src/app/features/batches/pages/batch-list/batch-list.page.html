@@ -1,0 +1,63 @@
+<main class="p-tf-6 lg:p-tf-10">
+  <div class="mx-auto max-w-7xl">
+    <app-page-header title="Batches" description="Browse and manage product batches.">
+      @if (isAdmin() === 'ADMIN') {
+        <a page-header-actions app-button routerLink="/admin/batches/create">Create Batch</a>
+      }
+    </app-page-header>
+
+    <div class="mb-tf-6 flex flex-col gap-tf-4 sm:flex-row sm:items-center">
+      <div class="flex-1">
+        <app-search-input placeholder="Search batches..." (queryChange)="onSearchChange($event)" />
+      </div>
+      <div class="w-full sm:w-48">
+        <app-select placeholder="All statuses" [options]="statusOptions" (ngModelChange)="onStatusChange($any($event))" />
+      </div>
+    </div>
+
+    @if (loading()) {
+      <div class="flex items-center justify-center p-tf-16">
+        <app-loading-spinner size="lg" />
+      </div>
+    } @else if (batches().length === 0) {
+      <app-empty-state title="No batches found" description="Try adjusting your search or filter criteria." />
+    } @else {
+      <app-card variant="outlined" padding="none">
+        <div class="overflow-x-auto">
+          <table class="w-full min-w-[640px] border-collapse text-left">
+            <thead>
+              <tr class="border-b border-tf-border bg-tf-surface-subtle">
+                <th class="px-tf-5 py-tf-3 text-xs font-semibold uppercase tracking-wider text-tf-secondary">Batch #</th>
+                <th class="px-tf-5 py-tf-3 text-xs font-semibold uppercase tracking-wider text-tf-secondary">Product</th>
+                <th class="px-tf-5 py-tf-3 text-xs font-semibold uppercase tracking-wider text-tf-secondary">Origin</th>
+                <th class="px-tf-5 py-tf-3 text-xs font-semibold uppercase tracking-wider text-tf-secondary">Status</th>
+                <th class="px-tf-5 py-tf-3 text-xs font-semibold uppercase tracking-wider text-tf-secondary">Created</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-tf-border">
+              @for (batch of batches(); track batch.id) {
+                <tr class="cursor-pointer transition-colors hover:bg-tf-action-secondary-hover" [routerLink]="['/batches', batch.id]">
+                  <td class="whitespace-nowrap px-tf-5 py-tf-4 text-sm font-medium text-tf-primary">{{ batch.batchNumber }}</td>
+                  <td class="whitespace-nowrap px-tf-5 py-tf-4 text-sm text-tf-primary">{{ batch.productName }}</td>
+                  <td class="whitespace-nowrap px-tf-5 py-tf-4 text-sm text-tf-secondary">{{ batch.origin }}</td>
+                  <td class="whitespace-nowrap px-tf-5 py-tf-4"><app-status-badge [status]="batch.currentStatus" /></td>
+                  <td class="whitespace-nowrap px-tf-5 py-tf-4 text-sm text-tf-secondary">{{ batch.createdAt | date:'mediumDate' }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        @if (totalPages() > 1) {
+          <div class="flex items-center justify-between border-t border-tf-border px-tf-5 py-tf-4">
+            <p class="m-0 text-sm text-tf-secondary">Page {{ currentPage() }} of {{ totalPages() }}</p>
+            <div class="flex gap-tf-2">
+              <app-button variant="secondary" size="sm" [disabled]="currentPage() <= 1" (pressed)="goToPage(currentPage() - 1)">Previous</app-button>
+              <app-button variant="secondary" size="sm" [disabled]="currentPage() >= totalPages()" (pressed)="goToPage(currentPage() + 1)">Next</app-button>
+            </div>
+          </div>
+        }
+      </app-card>
+    }
+  </div>
+</main>
