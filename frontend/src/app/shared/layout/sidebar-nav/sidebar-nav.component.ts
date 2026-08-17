@@ -7,7 +7,6 @@ import { NavigationItem } from '../navigation/navigation.model';
   standalone: true,
   imports: [RouterLink, RouterLinkActive],
   templateUrl: './sidebar-nav.component.html',
-  styleUrl: './sidebar-nav.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarNavComponent {

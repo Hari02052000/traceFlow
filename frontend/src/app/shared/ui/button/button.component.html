@@ -1,13 +1,14 @@
 <button
   [type]="type"
-  [class]="'button button--' + variant + ' button--' + size"
-  [class.button--full-width]="fullWidth"
+  [class]="variantClasses[variant] + ' ' + sizeClasses[size]"
+  [class.w-full]="fullWidth"
   [disabled]="disabled || loading"
   [attr.aria-busy]="loading || null"
   (click)="onClick($event)"
+  class="inline-flex items-center justify-center gap-tf-2 rounded-tf-md border font-sans text-sm leading-normal font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-tf-focus focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-55"
 >
   @if (loading) {
-    <span class="button__spinner" aria-hidden="true"></span>
+    <span class="size-3.5 animate-spin rounded-full border-2 border-current border-r-transparent" aria-hidden="true"></span>
   }
-  <span class="button__content"><ng-content /></span>
+  <span><ng-content /></span>
 </button>

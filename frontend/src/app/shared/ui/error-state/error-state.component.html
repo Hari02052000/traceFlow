@@ -1,10 +1,10 @@
-<section class="error-state" role="alert">
-  <div class="error-state__icon" aria-hidden="true">!</div>
-  <div class="error-state__content">
-    <h2 class="error-state__title">{{ title }}</h2>
-    <p class="error-state__description">{{ description }}</p>
+<section class="flex flex-col items-center gap-tf-3 rounded-tf-lg border border-tf-danger bg-tf-danger-subtle px-tf-6 py-tf-8 text-center text-tf-primary" role="alert">
+  <div class="flex size-6 items-center justify-center rounded-full bg-tf-danger text-sm font-bold text-tf-inverse" aria-hidden="true">!</div>
+  <div class="grid gap-tf-1">
+    <h2 class="m-0 text-lg leading-tight font-semibold">{{ title }}</h2>
+    <p class="m-0 text-sm text-tf-secondary">{{ description }}</p>
   </div>
   @if (showRetry) {
-    <button class="error-state__retry" type="button" (click)="retry.emit()">{{ retryLabel }}</button>
+    <button class="cursor-pointer rounded-tf-md border border-tf-danger bg-tf-surface px-tf-3 py-tf-2 text-sm font-semibold text-tf-danger focus-visible:outline-2 focus-visible:outline-tf-focus focus-visible:outline-offset-2" type="button" (click)="retry.emit()">{{ retryLabel }}</button>
   }
 </section>

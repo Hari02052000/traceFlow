@@ -1,0 +1,35 @@
+<main class="grid min-h-screen lg:grid-cols-[minmax(22rem,1fr)_minmax(28rem,1fr)]">
+  <section class="hidden flex-col justify-between bg-tf-surface-selected p-tf-10 text-tf-primary lg:flex" aria-label="TraceFlow introduction">
+    <a class="inline-flex items-center gap-tf-3 text-xl font-bold text-tf-primary no-underline focus-visible:outline-2 focus-visible:outline-tf-focus focus-visible:outline-offset-3" routerLink="/login"><span class="inline-flex size-9 items-center justify-center rounded-tf-md bg-tf-action text-sm text-tf-inverse" aria-hidden="true">T</span>TraceFlow</a>
+    <div class="grid max-w-[31rem] gap-tf-4">
+      <p class="m-0 text-sm font-semibold tracking-[0.04em] text-tf-action uppercase">Start tracing with confidence</p>
+      <h1 class="m-0 text-5xl leading-tight font-bold">Bring every food batch into clear view.</h1>
+      <p class="m-0 text-lg leading-relaxed text-tf-secondary">Create an operator account to follow product movement, quality checks, and delivery milestones.</p>
+    </div>
+  </section>
+
+  <section class="flex items-center justify-center p-tf-4 sm:p-tf-6 lg:p-tf-10" aria-labelledby="register-title">
+    <app-card variant="outlined" padding="lg">
+      <div class="grid w-full max-w-md gap-tf-8">
+        <div class="grid gap-tf-2"><p class="m-0 text-sm font-semibold tracking-[0.04em] text-tf-action uppercase">Create account</p><h2 id="register-title" class="m-0 text-2xl leading-tight font-bold text-tf-primary">Join TraceFlow</h2><p class="m-0 text-sm leading-normal text-tf-secondary">New accounts are created as operator accounts.</p></div>
+        <form class="grid gap-tf-5" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+          <app-form-field controlId="register-name" label="Full name" [required]="true" [error]="showError('name') ? errorMessage('name') : ''">
+            <app-input inputId="register-name" autocomplete="name" placeholder="Your full name" formControlName="name" [invalid]="showError('name')" [describedBy]="showError('name') ? 'register-name-error' : ''" />
+          </app-form-field>
+          <app-form-field controlId="register-email" label="Email address" [required]="true" [error]="showError('email') ? errorMessage('email') : ''">
+            <app-input inputId="register-email" type="email" autocomplete="email" placeholder="you@company.com" formControlName="email" [invalid]="showError('email')" [describedBy]="showError('email') ? 'register-email-error' : ''" />
+          </app-form-field>
+          <app-form-field controlId="register-password" label="Password" hint="Use at least 8 characters." [required]="true" [error]="showError('password') ? errorMessage('password') : ''">
+            <app-password-input inputId="register-password" autocomplete="new-password" placeholder="Create a password" formControlName="password" [invalid]="showError('password')" [describedBy]="showError('password') ? 'register-password-error' : 'register-password-hint'" />
+          </app-form-field>
+          <app-form-field controlId="register-confirm-password" label="Confirm password" [required]="true" [error]="showError('confirmPassword') ? errorMessage('confirmPassword') : ''">
+            <app-password-input inputId="register-confirm-password" autocomplete="new-password" placeholder="Repeat your password" formControlName="confirmPassword" [invalid]="showError('confirmPassword')" [describedBy]="showError('confirmPassword') ? 'register-confirm-password-error' : ''" />
+          </app-form-field>
+          <div class="grid gap-tf-2"><app-checkbox inputId="accepted-terms" label="I agree to the TraceFlow terms and privacy policy." formControlName="acceptedTerms" />@if (showError('acceptedTerms')) { <p class="m-0 text-xs leading-normal text-tf-danger">{{ errorMessage('acceptedTerms') }}</p> }</div>
+          <app-button type="submit" [fullWidth]="true">Create account</app-button>
+        </form>
+        <p class="m-0 text-sm leading-normal text-tf-secondary">Already have an account? <a class="font-semibold text-tf-link focus-visible:outline-2 focus-visible:outline-tf-focus focus-visible:outline-offset-3" routerLink="/login">Sign in</a></p>
+      </div>
+    </app-card>
+  </section>
+</main>

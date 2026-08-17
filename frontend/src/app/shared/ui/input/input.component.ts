@@ -6,7 +6,6 @@ import { ValueAccessor } from '../form-controls/control-value-accessor';
   selector: 'app-input',
   standalone: true,
   templateUrl: './input.component.html',
-  styleUrl: './input.component.css',
   providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => InputComponent), multi: true }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

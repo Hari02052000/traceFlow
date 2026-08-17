@@ -1,12 +1,12 @@
-<div class="form-field">
-  <label class="form-field__label" [attr.for]="controlId || null">
+<div class="grid gap-tf-2">
+  <label class="text-sm leading-normal font-medium text-tf-primary" [attr.for]="controlId || null">
     {{ label }}
-    @if (required) { <span class="form-field__required" aria-hidden="true">*</span> }
+    @if (required) { <span class="text-tf-danger" aria-hidden="true">*</span> }
   </label>
   <ng-content />
   @if (error) {
-    <p class="form-field__message form-field__message--error" [id]="controlId + '-error'" role="alert">{{ error }}</p>
+    <p class="m-0 text-xs leading-normal text-tf-danger" [id]="controlId + '-error'" role="alert">{{ error }}</p>
   } @else if (hint) {
-    <p class="form-field__message" [id]="controlId + '-hint'">{{ hint }}</p>
+    <p class="m-0 text-xs leading-normal text-tf-tertiary" [id]="controlId + '-hint'">{{ hint }}</p>
   }
 </div>

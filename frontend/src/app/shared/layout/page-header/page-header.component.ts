@@ -4,7 +4,6 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   selector: 'app-page-header',
   standalone: true,
   templateUrl: './page-header.component.html',
-  styleUrl: './page-header.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PageHeaderComponent {

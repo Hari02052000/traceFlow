@@ -4,7 +4,6 @@ import { ChangeDetectionStrategy, Component, EventEmitter, HostListener, Input, 
   selector: 'app-drawer',
   standalone: true,
   templateUrl: './drawer.component.html',
-  styleUrl: './drawer.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DrawerComponent {

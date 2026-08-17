@@ -3,6 +3,53 @@
 @import 'tailwindcss';
 @import './styles/tokens.css';
 
+/* TraceFlow semantic tokens exposed as Tailwind utilities, e.g. bg-tf-surface. */
+@theme inline {
+  --color-tf-background: var(--color-background);
+  --color-tf-surface: var(--color-surface);
+  --color-tf-surface-subtle: var(--color-surface-subtle);
+  --color-tf-surface-raised: var(--color-surface-raised);
+  --color-tf-surface-selected: var(--color-surface-selected);
+  --color-tf-primary: var(--color-text-primary);
+  --color-tf-secondary: var(--color-text-secondary);
+  --color-tf-tertiary: var(--color-text-tertiary);
+  --color-tf-inverse: var(--color-text-inverse);
+  --color-tf-link: var(--color-text-link);
+  --color-tf-border: var(--color-border);
+  --color-tf-border-strong: var(--color-border-strong);
+  --color-tf-focus: var(--color-border-focus);
+  --color-tf-action: var(--color-action-primary);
+  --color-tf-action-hover: var(--color-action-primary-hover);
+  --color-tf-action-active: var(--color-action-primary-active);
+  --color-tf-action-secondary-hover: var(--color-action-secondary-hover);
+  --color-tf-success: var(--color-success);
+  --color-tf-success-subtle: var(--color-success-subtle);
+  --color-tf-info: var(--color-info);
+  --color-tf-info-subtle: var(--color-info-subtle);
+  --color-tf-warning: var(--color-warning);
+  --color-tf-warning-subtle: var(--color-warning-subtle);
+  --color-tf-danger: var(--color-danger);
+  --color-tf-danger-subtle: var(--color-danger-subtle);
+  --color-tf-overlay: var(--color-overlay);
+  --font-sans: var(--font-family-sans);
+  --radius-tf-sm: var(--radius-sm);
+  --radius-tf-md: var(--radius-md);
+  --radius-tf-lg: var(--radius-lg);
+  --radius-tf-xl: var(--radius-xl);
+  --shadow-tf-sm: var(--shadow-sm);
+  --shadow-tf-md: var(--shadow-md);
+  --shadow-tf-lg: var(--shadow-lg);
+  --spacing-tf-1: var(--space-1);
+  --spacing-tf-2: var(--space-2);
+  --spacing-tf-3: var(--space-3);
+  --spacing-tf-4: var(--space-4);
+  --spacing-tf-5: var(--space-5);
+  --spacing-tf-6: var(--space-6);
+  --spacing-tf-8: var(--space-8);
+  --spacing-tf-10: var(--space-10);
+  --spacing-tf-12: var(--space-12);
+}
+
 html,
 body {
   min-height: 100%;

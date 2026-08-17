@@ -8,7 +8,6 @@ export interface SelectOption { value: string; label: string; disabled?: boolean
   selector: 'app-select',
   standalone: true,
   templateUrl: './select.component.html',
-  styleUrl: './select.component.css',
   providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => SelectComponent), multi: true }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

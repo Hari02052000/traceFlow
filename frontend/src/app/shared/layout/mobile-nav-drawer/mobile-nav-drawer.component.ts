@@ -8,7 +8,6 @@ import { DrawerComponent } from '../../ui/drawer/drawer.component';
   standalone: true,
   imports: [DrawerComponent, SidebarNavComponent],
   templateUrl: './mobile-nav-drawer.component.html',
-  styleUrl: './mobile-nav-drawer.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MobileNavDrawerComponent {

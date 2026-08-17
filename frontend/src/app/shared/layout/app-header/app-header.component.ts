@@ -7,7 +7,6 @@ import { UserMenuComponent } from '../user-menu/user-menu.component';
   standalone: true,
   imports: [RouterLink, UserMenuComponent],
   templateUrl: './app-header.component.html',
-  styleUrl: './app-header.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppHeaderComponent {

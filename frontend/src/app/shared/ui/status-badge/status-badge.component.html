@@ -1,4 +1,4 @@
-<span [class]="'status-badge status-badge--' + status.toLowerCase().replaceAll('_', '-')">
-  <span class="status-badge__indicator" aria-hidden="true"></span>
+<span [class]="statusClasses[status]" class="inline-flex items-center gap-tf-2 rounded-tf-xl px-tf-3 py-tf-1 text-xs leading-normal font-semibold whitespace-nowrap">
+  <span class="size-1.5 rounded-full bg-current" aria-hidden="true"></span>
   {{ displayLabel }}
 </span>

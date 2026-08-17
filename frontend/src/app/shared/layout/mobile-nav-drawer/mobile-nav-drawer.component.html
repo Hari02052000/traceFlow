@@ -1,3 +1,5 @@
-<app-drawer [open]="open" position="left" title="TraceFlow" (closed)="closed.emit()">
-  <app-sidebar-nav [items]="items" [showBrand]="false" (navigated)="closed.emit()" />
-</app-drawer>
+<div class="lg:hidden">
+  <app-drawer [open]="open" position="left" title="TraceFlow" (closed)="closed.emit()">
+    <app-sidebar-nav [items]="items" [showBrand]="false" (navigated)="closed.emit()" />
+  </app-drawer>
+</div>

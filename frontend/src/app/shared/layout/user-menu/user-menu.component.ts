@@ -7,7 +7,6 @@ import { ThemePreference, ThemeService } from '../../services/theme.service';
   standalone: true,
   imports: [RouterLink],
   templateUrl: './user-menu.component.html',
-  styleUrl: './user-menu.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserMenuComponent {

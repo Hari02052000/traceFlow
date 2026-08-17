@@ -1,7 +1,7 @@
-<div class="search-input">
-  <span class="search-input__icon" aria-hidden="true">⌕</span>
-  <input class="search-input__control" type="search" [id]="inputId || null" [value]="value() ?? ''" [placeholder]="placeholder" [disabled]="disabled()" [attr.aria-describedby]="describedBy || null" (input)="onInput($event)" (blur)="markAsTouched()" />
+<div class="relative">
+  <span class="absolute top-1/2 left-tf-3 -translate-y-1/2 leading-none text-tf-tertiary" aria-hidden="true">⌕</span>
+  <input class="box-border min-h-10 w-full rounded-tf-md border border-tf-border bg-tf-surface px-tf-8 py-tf-2 font-sans leading-normal text-tf-primary outline-none transition-[border-color,box-shadow] placeholder:text-tf-tertiary hover:border-tf-border-strong focus:border-tf-focus focus:ring-3 focus:ring-tf-surface-selected disabled:cursor-not-allowed disabled:bg-tf-surface-subtle" type="search" [id]="inputId || null" [value]="value() ?? ''" [placeholder]="placeholder" [disabled]="disabled()" [attr.aria-describedby]="describedBy || null" (input)="onInput($event)" (blur)="markAsTouched()" />
   @if (value()) {
-    <button class="search-input__clear" type="button" [disabled]="disabled()" aria-label="Clear search" (click)="clear()">×</button>
+    <button class="absolute top-1/2 right-tf-2 -translate-y-1/2 cursor-pointer rounded-tf-sm border-0 bg-transparent p-tf-1 text-xl leading-none text-tf-tertiary focus-visible:outline-2 focus-visible:outline-tf-focus focus-visible:outline-offset-2" type="button" [disabled]="disabled()" aria-label="Clear search" (click)="clear()">×</button>
   }
 </div>

@@ -4,7 +4,6 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   selector: 'app-form-field',
   standalone: true,
   templateUrl: './form-field.component.html',
-  styleUrl: './form-field.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormFieldComponent {

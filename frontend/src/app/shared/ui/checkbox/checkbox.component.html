@@ -1,5 +1,5 @@
-<label class="checkbox" [attr.for]="inputId || null">
-  <input class="checkbox__input" type="checkbox" [id]="inputId || null" [checked]="value() ?? false" [disabled]="disabled()" [attr.aria-describedby]="describedBy || null" (change)="onCheckboxChange($event)" (blur)="markAsTouched()" />
-  <span class="checkbox__control" aria-hidden="true"></span>
-  <span class="checkbox__label">{{ label }}</span>
+<label class="inline-flex cursor-pointer items-start gap-tf-2 text-sm leading-normal text-tf-primary" [attr.for]="inputId || null">
+  <input class="peer sr-only" type="checkbox" [id]="inputId || null" [checked]="value() ?? false" [disabled]="disabled()" [attr.aria-describedby]="describedBy || null" (change)="onCheckboxChange($event)" (blur)="markAsTouched()" />
+  <span class="mt-[0.15rem] size-4 shrink-0 rounded-tf-sm border border-tf-border-strong bg-tf-surface peer-checked:border-tf-action peer-checked:bg-tf-action peer-checked:shadow-[inset_0_0_0_3px_var(--color-surface)] peer-focus-visible:outline-2 peer-focus-visible:outline-tf-focus peer-focus-visible:outline-offset-2 peer-disabled:cursor-not-allowed peer-disabled:opacity-55" aria-hidden="true"></span>
+  <span class="peer-disabled:cursor-not-allowed peer-disabled:opacity-55">{{ label }}</span>
 </label>

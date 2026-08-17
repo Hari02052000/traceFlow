@@ -1,0 +1,29 @@
+<main class="grid min-h-screen lg:grid-cols-[minmax(22rem,1fr)_minmax(28rem,1fr)]">
+  <section class="hidden flex-col justify-between bg-tf-surface-selected p-tf-10 text-tf-primary lg:flex" aria-label="TraceFlow introduction">
+    <a class="inline-flex items-center gap-tf-3 text-xl font-bold text-tf-primary no-underline focus-visible:outline-2 focus-visible:outline-tf-focus focus-visible:outline-offset-3" routerLink="/login"><span class="inline-flex size-9 items-center justify-center rounded-tf-md bg-tf-action text-sm text-tf-inverse" aria-hidden="true">T</span>TraceFlow</a>
+    <div class="grid max-w-[31rem] gap-tf-4">
+      <p class="m-0 text-sm font-semibold tracking-[0.04em] text-tf-action uppercase">Supply-chain traceability</p>
+      <h1 class="m-0 text-5xl leading-tight font-bold">Know every step of your product journey.</h1>
+      <p class="m-0 text-lg leading-relaxed text-tf-secondary">TraceFlow gives food teams a clear, reliable view of every batch from harvest to delivery.</p>
+    </div>
+  </section>
+
+  <section class="flex items-center justify-center p-tf-4 sm:p-tf-6 lg:p-tf-10" aria-labelledby="login-title">
+    <app-card variant="outlined" padding="lg">
+      <div class="grid w-full max-w-md gap-tf-8">
+        <div class="grid gap-tf-2"><p class="m-0 text-sm font-semibold tracking-[0.04em] text-tf-action uppercase">Welcome back</p><h2 id="login-title" class="m-0 text-2xl leading-tight font-bold text-tf-primary">Sign in to TraceFlow</h2><p class="m-0 text-sm leading-normal text-tf-secondary">Enter your account details to continue.</p></div>
+        <form class="grid gap-tf-5" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+          <app-form-field controlId="login-email" label="Email address" [required]="true" [error]="showError('email') ? errorMessage('email') : ''">
+            <app-input inputId="login-email" type="email" autocomplete="email" placeholder="you@company.com" formControlName="email" [invalid]="showError('email')" [describedBy]="showError('email') ? 'login-email-error' : ''" />
+          </app-form-field>
+          <app-form-field controlId="login-password" label="Password" [required]="true" [error]="showError('password') ? errorMessage('password') : ''">
+            <app-password-input inputId="login-password" autocomplete="current-password" placeholder="Enter your password" formControlName="password" [invalid]="showError('password')" [describedBy]="showError('password') ? 'login-password-error' : ''" />
+          </app-form-field>
+          <div class="flex items-center justify-between gap-tf-3"><app-checkbox inputId="remember-me" label="Remember me" formControlName="rememberMe" /><button class="cursor-pointer border-0 bg-transparent p-0 text-sm text-tf-link focus-visible:outline-2 focus-visible:outline-tf-focus focus-visible:outline-offset-3" type="button">Forgot password?</button></div>
+          <app-button type="submit" [fullWidth]="true">Sign in</app-button>
+        </form>
+        <p class="m-0 text-sm leading-normal text-tf-secondary">New to TraceFlow? <a class="font-semibold text-tf-link focus-visible:outline-2 focus-visible:outline-tf-focus focus-visible:outline-offset-3" routerLink="/register">Create an operator account</a></p>
+      </div>
+    </app-card>
+  </section>
+</main>

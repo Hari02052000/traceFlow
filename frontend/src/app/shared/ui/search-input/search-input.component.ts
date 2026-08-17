@@ -6,7 +6,6 @@ import { ValueAccessor } from '../form-controls/control-value-accessor';
   selector: 'app-search-input',
   standalone: true,
   templateUrl: './search-input.component.html',
-  styleUrl: './search-input.component.css',
   providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => SearchInputComponent), multi: true }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

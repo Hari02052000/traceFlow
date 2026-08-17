@@ -6,7 +6,6 @@ import { ValueAccessor } from '../form-controls/control-value-accessor';
   selector: 'app-textarea',
   standalone: true,
   templateUrl: './textarea.component.html',
-  styleUrl: './textarea.component.css',
   providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => TextareaComponent), multi: true }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -1,3 +1,3 @@
-<button [type]="type" [class]="'icon-button icon-button--' + variant" [attr.aria-label]="ariaLabel" [disabled]="disabled" (click)="onClick($event)">
+<button [type]="type" [class]="variantClasses[variant]" class="inline-flex size-10 items-center justify-center rounded-tf-md border transition-colors hover:bg-tf-surface-subtle hover:text-tf-primary focus-visible:outline-2 focus-visible:outline-tf-focus focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-55" [attr.aria-label]="ariaLabel" [disabled]="disabled" (click)="onClick($event)">
   <ng-content />
 </button>

@@ -1,3 +1,3 @@
-<section [class]="'card card--' + variant + ' card--padding-' + padding">
+<section [class]="variantClasses[variant] + ' ' + paddingClasses[padding]" class="block rounded-tf-lg bg-tf-surface text-tf-primary">
   <ng-content />
 </section>

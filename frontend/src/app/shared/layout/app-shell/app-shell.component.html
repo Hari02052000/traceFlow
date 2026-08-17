@@ -1,8 +1,10 @@
-<div class="app-shell">
-  <aside class="app-shell__sidebar"><app-sidebar-nav [items]="navigationItems()" /></aside>
-  <div class="app-shell__workspace">
+<div class="bg-tf-background min-h-screen lg:grid lg:grid-cols-[16rem_minmax(0,1fr)]">
+  <aside class="hidden lg:block lg:h-screen lg:sticky lg:top-0 lg:border-r lg:border-tf-border">
+    <app-sidebar-nav [items]="navigationItems()" />
+  </aside>
+  <div class="min-h-screen">
     <app-app-header (menuRequested)="mobileNavOpen.set(true)" (logoutRequested)="logoutRequested.emit()" />
-    <main class="app-shell__content"><router-outlet /></main>
+    <main class="box-border min-w-0"><router-outlet /></main>
   </div>
   <app-mobile-nav-drawer [open]="mobileNavOpen()" [items]="navigationItems()" (closed)="mobileNavOpen.set(false)" />
 </div>

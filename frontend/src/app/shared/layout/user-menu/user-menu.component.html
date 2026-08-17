@@ -1,17 +1,22 @@
-<div class="user-menu">
-  <button class="user-menu__trigger" type="button" aria-label="Open user menu" [attr.aria-expanded]="open()" (click)="open.update((value) => !value)">
-    <span class="user-menu__avatar" aria-hidden="true">U</span>
+<div class="relative">
+  <button class="cursor-pointer rounded-tf-md border-0 bg-transparent p-0 focus-visible:outline-2 focus-visible:outline-tf-focus focus-visible:outline-offset-2" type="button" aria-label="Open user menu" [attr.aria-expanded]="open()" (click)="open.update((value) => !value)">
+    <span class="inline-flex size-9 items-center justify-center rounded-full bg-tf-surface-selected text-sm font-bold text-tf-action" aria-hidden="true">U</span>
   </button>
   @if (open()) {
-    <div class="user-menu__panel" role="menu">
-      <a routerLink="/profile" role="menuitem" (click)="close()">Profile</a>
-      <div class="user-menu__theme" role="group" aria-label="Theme preference">
-        <span>Theme</span>
-        <button type="button" [class.is-selected]="preference() === 'system'" (click)="setTheme('system')">System</button>
-        <button type="button" [class.is-selected]="preference() === 'light'" (click)="setTheme('light')">Light</button>
-        <button type="button" [class.is-selected]="preference() === 'dark'" (click)="setTheme('dark')">Dark</button>
+    <div class="absolute right-0 top-full z-[var(--z-index-menu)] mt-tf-2 grid min-w-[12rem] gap-tf-1 rounded-tf-md border border-tf-border bg-tf-surface-raised p-tf-2 shadow-tf-md" role="menu">
+      <a class="rounded-tf-sm border-0 bg-transparent p-tf-2 px-tf-3 text-left text-sm text-tf-primary no-underline cursor-pointer hover:bg-tf-action-secondary-hover focus-visible:outline-2 focus-visible:outline-tf-focus focus-visible:outline-offset-[-2px]"
+         routerLink="/profile" role="menuitem" (click)="close()">Profile</a>
+      <div class="border-b border-tf-border border-t border-tf-border mx-0 my-tf-1 grid gap-tf-1 py-tf-2 text-tf-tertiary text-xs" role="group" aria-label="Theme preference">
+        <span class="px-tf-3">Theme</span>
+        <button class="rounded-tf-sm border-0 bg-transparent p-tf-2 px-tf-3 text-left text-sm text-tf-primary cursor-pointer hover:bg-tf-action-secondary-hover focus-visible:outline-2 focus-visible:outline-tf-focus focus-visible:outline-offset-[-2px]"
+                type="button" [class.bg-tf-action-secondary-hover]="preference() === 'system'" (click)="setTheme('system')">System</button>
+        <button class="rounded-tf-sm border-0 bg-transparent p-tf-2 px-tf-3 text-left text-sm text-tf-primary cursor-pointer hover:bg-tf-action-secondary-hover focus-visible:outline-2 focus-visible:outline-tf-focus focus-visible:outline-offset-[-2px]"
+                type="button" [class.bg-tf-action-secondary-hover]="preference() === 'light'" (click)="setTheme('light')">Light</button>
+        <button class="rounded-tf-sm border-0 bg-transparent p-tf-2 px-tf-3 text-left text-sm text-tf-primary cursor-pointer hover:bg-tf-action-secondary-hover focus-visible:outline-2 focus-visible:outline-tf-focus focus-visible:outline-offset-[-2px]"
+                type="button" [class.bg-tf-action-secondary-hover]="preference() === 'dark'" (click)="setTheme('dark')">Dark</button>
       </div>
-      <button class="user-menu__logout" type="button" role="menuitem" (click)="logoutRequested.emit(); close()">Log out</button>
+      <button class="rounded-tf-sm border-0 bg-transparent p-tf-2 px-tf-3 text-left text-sm text-tf-danger cursor-pointer hover:bg-tf-action-secondary-hover focus-visible:outline-2 focus-visible:outline-tf-focus focus-visible:outline-offset-[-2px]"
+              type="button" role="menuitem" (click)="logoutRequested.emit(); close()">Log out</button>
     </div>
   }
 </div>

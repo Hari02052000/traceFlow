@@ -1,12 +1,12 @@
 @if (open) {
-  <div class="modal-backdrop" (click)="closeFromBackdrop()">
-    <section [class]="'modal modal--' + size" role="dialog" aria-modal="true" [attr.aria-label]="title || 'Dialog'" (click)="$event.stopPropagation()">
-      <header class="modal__header">
-        @if (title) { <h2 class="modal__title">{{ title }}</h2> }
-        <button class="modal__close" type="button" aria-label="Close dialog" (click)="closed.emit()">×</button>
+  <div class="fixed inset-0 z-[var(--z-index-overlay)] flex items-center justify-center bg-tf-overlay p-tf-4" (click)="closeFromBackdrop()">
+    <section [class]="size === 'sm' ? 'max-w-[26rem]' : size === 'lg' ? 'max-w-[48rem]' : 'max-w-[34rem]'" class="max-h-[calc(100vh-var(--space-8))] w-full overflow-auto rounded-tf-lg bg-tf-surface text-tf-primary shadow-tf-lg" role="dialog" aria-modal="true" [attr.aria-label]="title || 'Dialog'" (click)="$event.stopPropagation()">
+      <header class="flex min-h-16 items-center justify-between gap-tf-3 border-b border-tf-border px-tf-5">
+        @if (title) { <h2 class="m-0 text-lg leading-tight font-semibold">{{ title }}</h2> }
+        <button class="cursor-pointer rounded-tf-sm border-0 bg-transparent p-tf-1 text-2xl leading-none text-tf-secondary hover:bg-tf-surface-subtle hover:text-tf-primary focus-visible:outline-2 focus-visible:outline-tf-focus focus-visible:outline-offset-2" type="button" aria-label="Close dialog" (click)="closed.emit()">×</button>
       </header>
-      <div class="modal__body"><ng-content /></div>
-      <footer class="modal__footer"><ng-content select="[modal-footer]" /></footer>
+      <div class="p-tf-5"><ng-content /></div>
+      <footer class="empty:hidden border-t border-tf-border px-tf-5 py-tf-4"><ng-content select="[modal-footer]" /></footer>
     </section>
   </div>
 }

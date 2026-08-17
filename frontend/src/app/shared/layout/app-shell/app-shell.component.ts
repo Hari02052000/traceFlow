@@ -10,7 +10,6 @@ import { SidebarNavComponent } from '../sidebar-nav/sidebar-nav.component';
   standalone: true,
   imports: [AppHeaderComponent, MobileNavDrawerComponent, RouterOutlet, SidebarNavComponent],
   templateUrl: './app-shell.component.html',
-  styleUrl: './app-shell.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppShellComponent {

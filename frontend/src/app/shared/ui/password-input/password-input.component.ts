@@ -6,7 +6,6 @@ import { ValueAccessor } from '../form-controls/control-value-accessor';
   selector: 'app-password-input',
   standalone: true,
   templateUrl: './password-input.component.html',
-  styleUrl: './password-input.component.css',
   providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => PasswordInputComponent), multi: true }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

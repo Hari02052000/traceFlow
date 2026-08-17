@@ -4,7 +4,6 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
   selector: 'app-error-state',
   standalone: true,
   templateUrl: './error-state.component.html',
-  styleUrl: './error-state.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ErrorStateComponent {

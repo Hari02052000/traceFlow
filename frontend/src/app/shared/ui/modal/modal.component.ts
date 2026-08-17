@@ -4,7 +4,6 @@ import { ChangeDetectionStrategy, Component, EventEmitter, HostListener, Input, 
   selector: 'app-modal',
   standalone: true,
   templateUrl: './modal.component.html',
-  styleUrl: './modal.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModalComponent {

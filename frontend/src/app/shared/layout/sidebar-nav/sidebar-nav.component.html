@@ -1,14 +1,17 @@
-<nav class="sidebar-nav" aria-label="Main navigation">
+<nav class="flex h-full flex-col gap-tf-8 bg-tf-surface p-tf-5" aria-label="Main navigation">
   @if (showBrand) {
-    <a class="sidebar-nav__brand" routerLink="/dashboard" (click)="navigated.emit()">
-      <span class="sidebar-nav__brand-mark" aria-hidden="true">T</span>
+    <a class="inline-flex items-center gap-tf-3 text-lg font-bold text-tf-primary no-underline focus-visible:outline-2 focus-visible:outline-tf-focus focus-visible:outline-offset-2" routerLink="/dashboard" (click)="navigated.emit()">
+      <span class="inline-flex size-8 items-center justify-center rounded-tf-md bg-tf-action text-tf-inverse text-sm font-bold" aria-hidden="true">T</span>
       <span>TraceFlow</span>
     </a>
   }
-  <div class="sidebar-nav__links">
+  <div class="grid gap-tf-1">
     @for (item of items; track item.route) {
-      <a class="sidebar-nav__link" [routerLink]="item.route" routerLinkActive="sidebar-nav__link--active" (click)="navigated.emit()">
-        <span class="sidebar-nav__icon" aria-hidden="true">{{ item.icon }}</span>
+      <a class="flex min-h-[2.75rem] items-center gap-tf-3 rounded-tf-md px-tf-3 text-sm font-medium text-tf-secondary no-underline transition-colors hover:bg-tf-action-secondary-hover hover:text-tf-primary focus-visible:outline-2 focus-visible:outline-tf-focus focus-visible:outline-offset-2"
+         [routerLink]="item.route"
+         routerLinkActive="bg-tf-surface-selected text-tf-action font-semibold"
+         (click)="navigated.emit()">
+        <span class="inline-flex size-5 items-center justify-center text-lg" aria-hidden="true">{{ item.icon }}</span>
         <span>{{ item.label }}</span>
       </a>
     }

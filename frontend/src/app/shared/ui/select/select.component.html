@@ -1,4 +1,4 @@
-<select class="select" [id]="inputId || null" [value]="value() ?? ''" [disabled]="disabled()" [attr.aria-invalid]="invalid || null" [attr.aria-describedby]="describedBy || null" (change)="onSelect($event)" (blur)="markAsTouched()">
+<select class="box-border min-h-10 w-full cursor-pointer appearance-auto rounded-tf-md border border-tf-border bg-tf-surface px-tf-3 py-tf-2 font-sans leading-normal text-tf-primary outline-none transition-[border-color,box-shadow] hover:border-tf-border-strong focus:border-tf-focus focus:ring-3 focus:ring-tf-surface-selected aria-[invalid=true]:border-tf-danger disabled:cursor-not-allowed disabled:bg-tf-surface-subtle" [id]="inputId || null" [value]="value() ?? ''" [disabled]="disabled()" [attr.aria-invalid]="invalid || null" [attr.aria-describedby]="describedBy || null" (change)="onSelect($event)" (blur)="markAsTouched()">
   <option value="" disabled>{{ placeholder }}</option>
   @for (option of options; track option.value) {
     <option [value]="option.value" [disabled]="option.disabled ?? false">{{ option.label }}</option>

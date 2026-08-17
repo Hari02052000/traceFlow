@@ -7,7 +7,6 @@ import { ModalComponent } from '../modal/modal.component';
   standalone: true,
   imports: [ButtonComponent, ModalComponent],
   templateUrl: './confirmation-dialog.component.html',
-  styleUrl: './confirmation-dialog.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmationDialogComponent {

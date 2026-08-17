@@ -6,7 +6,6 @@ import { ValueAccessor } from '../form-controls/control-value-accessor';
   selector: 'app-checkbox',
   standalone: true,
   templateUrl: './checkbox.component.html',
-  styleUrl: './checkbox.component.css',
   providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => CheckboxComponent), multi: true }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

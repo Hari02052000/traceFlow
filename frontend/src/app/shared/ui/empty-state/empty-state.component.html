@@ -1,8 +1,8 @@
-<section class="empty-state">
-  <div class="empty-state__illustration" aria-hidden="true"><ng-content select="[empty-state-icon]" /></div>
-  <div class="empty-state__content">
-    <h2 class="empty-state__title">{{ title }}</h2>
-    @if (description) { <p class="empty-state__description">{{ description }}</p> }
+<section class="flex flex-col items-center gap-tf-4 px-tf-6 py-tf-12 text-center text-tf-primary">
+  <div class="text-tf-tertiary empty:hidden" aria-hidden="true"><ng-content select="[empty-state-icon]" /></div>
+  <div class="grid max-w-[30rem] gap-tf-2">
+    <h2 class="m-0 text-lg leading-tight font-semibold">{{ title }}</h2>
+    @if (description) { <p class="m-0 text-sm leading-relaxed text-tf-secondary">{{ description }}</p> }
   </div>
-  <div class="empty-state__action"><ng-content select="[empty-state-action]" /></div>
+  <div class="empty:hidden"><ng-content select="[empty-state-action]" /></div>
 </section>

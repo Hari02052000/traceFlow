@@ -1,5 +1,9 @@
-<header class="app-header">
-  <button class="app-header__menu-button" type="button" aria-label="Open navigation" (click)="menuRequested.emit()">☰</button>
-  <a class="app-header__brand" routerLink="/dashboard">TraceFlow</a>
-  <div class="app-header__actions"><app-user-menu (logoutRequested)="logoutRequested.emit()" /></div>
+<header class="flex h-16 items-center justify-between border-b border-tf-border bg-tf-surface box-border px-tf-4">
+  <button
+    class="flex size-10 items-center justify-center rounded-tf-md border-0 bg-transparent p-0 text-tf-primary text-xl cursor-pointer lg:hidden focus-visible:outline-2 focus-visible:outline-tf-focus focus-visible:outline-offset-2"
+    type="button"
+    aria-label="Open navigation"
+    (click)="menuRequested.emit()">☰</button>
+  <a class="text-lg font-bold text-tf-primary no-underline lg:hidden focus-visible:outline-2 focus-visible:outline-tf-focus focus-visible:outline-offset-2" routerLink="/dashboard">TraceFlow</a>
+  <div class="ml-auto"><app-user-menu (logoutRequested)="logoutRequested.emit()" /></div>
 </header>

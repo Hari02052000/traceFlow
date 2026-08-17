@@ -1,7 +1,7 @@
-<header class="page-header">
-  <div class="page-header__content">
-    <h1 class="page-header__title">{{ title }}</h1>
-    @if (description) { <p class="page-header__description">{{ description }}</p> }
+<header class="flex flex-wrap items-start justify-between gap-tf-4">
+  <div class="grid gap-tf-2">
+    <h1 class="m-0 text-2xl font-bold leading-tight text-tf-primary md:text-3xl">{{ title }}</h1>
+    @if (description) { <p class="m-0 text-sm leading-normal text-tf-secondary">{{ description }}</p> }
   </div>
-  <div class="page-header__actions"><ng-content select="[page-header-actions]" /></div>
+  <div class="empty:hidden"><ng-content select="[page-header-actions]" /></div>
 </header>

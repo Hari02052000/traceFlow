@@ -1,4 +1,4 @@
-<span class="spinner" [class]="'spinner spinner--' + size" role="status">
-  <span class="spinner__visual" aria-hidden="true"></span>
-  <span class="spinner__label">{{ label }}</span>
+<span class="inline-flex items-center gap-tf-2 text-tf-secondary" role="status">
+  <span [class]="size === 'sm' ? 'size-3.5' : size === 'lg' ? 'size-7' : 'size-5'" class="animate-spin rounded-full border-2 border-current border-r-transparent motion-reduce:animate-[spin_2s_linear_infinite]" aria-hidden="true"></span>
+  <span class="text-sm">{{ label }}</span>
 </span>
