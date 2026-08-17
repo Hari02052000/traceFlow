@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Output, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostListener, Output, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ThemePreference, ThemeService } from '../../services/theme.service';
@@ -14,6 +14,7 @@ import { selectAuthUser } from '../../../store/auth/auth.selectors';
 export class UserMenuComponent {
   private readonly themeService = inject(ThemeService);
   private readonly store = inject(Store);
+  private readonly elementRef = inject(ElementRef);
   protected readonly open = signal(false);
   protected readonly preference = this.themeService.preference;
   protected readonly user = this.store.selectSignal(selectAuthUser);
@@ -26,5 +27,13 @@ export class UserMenuComponent {
 
   protected close(): void {
     this.open.set(false);
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    if (!this.elementRef.nativeElement.contains(target)) {
+      this.close();
+    }
   }
 }

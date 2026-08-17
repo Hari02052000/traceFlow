@@ -11,7 +11,7 @@
         <app-search-input placeholder="Search batches..." (queryChange)="onSearchChange($event)" />
       </div>
       <div class="w-full sm:w-48">
-        <app-select placeholder="All statuses" [options]="statusOptions" (ngModelChange)="onStatusChange($any($event))" />
+        <app-select placeholder="All statuses" [options]="statusOptions" [(ngModel)]="selectedStatus" (ngModelChange)="onStatusChange($event)" />
       </div>
     </div>
 
@@ -19,9 +19,37 @@
       <div class="flex items-center justify-center p-tf-16">
         <app-loading-spinner size="lg" />
       </div>
+    } @else if (listError()) {
+      <app-error-state [description]="listError()!" [showRetry]="true" (retry)="retry()" />
     } @else if (batches().length === 0) {
       <app-empty-state title="No batches found" description="Try adjusting your search or filter criteria." />
     } @else {
+      <div class="grid gap-tf-3 sm:hidden">
+        @for (batch of batches(); track batch.id) {
+          <a class="block no-underline" [routerLink]="['/batches', batch.id]">
+            <app-card padding="md">
+              <div class="mb-tf-2 flex items-start justify-between gap-tf-3">
+                <div class="min-w-0 flex-1">
+                  <p class="m-0 truncate text-sm font-semibold text-tf-primary">{{ batch.batchNumber }}</p>
+                  <p class="m-0 truncate text-xs text-tf-secondary">{{ batch.productName }}</p>
+                </div>
+                <div class="flex items-center gap-tf-2">
+                  <app-status-badge [status]="batch.currentStatus" />
+                  @if (isAdmin() === 'ADMIN' && batch.currentStatus !== 'ARCHIVED') {
+                    <app-button variant="secondary" size="sm" (pressed)="archive($event, batch.id)">Archive</app-button>
+                  }
+                </div>
+              </div>
+              <div class="flex items-center justify-between text-xs text-tf-secondary">
+                <span>{{ batch.origin }}</span>
+                <span>{{ batch.createdAt | date:'mediumDate' }}</span>
+              </div>
+            </app-card>
+          </a>
+        }
+      </div>
+
+      <div class="hidden sm:block">
       <app-card variant="outlined" padding="none">
         <div class="overflow-x-auto">
           <table class="w-full min-w-[640px] border-collapse text-left">
@@ -32,6 +60,9 @@
                 <th class="px-tf-5 py-tf-3 text-xs font-semibold uppercase tracking-wider text-tf-secondary">Origin</th>
                 <th class="px-tf-5 py-tf-3 text-xs font-semibold uppercase tracking-wider text-tf-secondary">Status</th>
                 <th class="px-tf-5 py-tf-3 text-xs font-semibold uppercase tracking-wider text-tf-secondary">Created</th>
+                @if (isAdmin() === 'ADMIN') {
+                  <th class="px-tf-5 py-tf-3 text-xs font-semibold uppercase tracking-wider text-tf-secondary">Actions</th>
+                }
               </tr>
             </thead>
             <tbody class="divide-y divide-tf-border">
@@ -42,6 +73,13 @@
                   <td class="whitespace-nowrap px-tf-5 py-tf-4 text-sm text-tf-secondary">{{ batch.origin }}</td>
                   <td class="whitespace-nowrap px-tf-5 py-tf-4"><app-status-badge [status]="batch.currentStatus" /></td>
                   <td class="whitespace-nowrap px-tf-5 py-tf-4 text-sm text-tf-secondary">{{ batch.createdAt | date:'mediumDate' }}</td>
+                  @if (isAdmin() === 'ADMIN') {
+                    <td class="whitespace-nowrap px-tf-5 py-tf-4">
+                      @if (batch.currentStatus !== 'ARCHIVED') {
+                        <app-button variant="secondary" size="sm" (pressed)="archive($event, batch.id)">Archive</app-button>
+                      }
+                    </td>
+                  }
                 </tr>
               }
             </tbody>
@@ -58,6 +96,7 @@
           </div>
         }
       </app-card>
+      </div>
     }
   </div>
 </main>

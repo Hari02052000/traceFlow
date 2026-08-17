@@ -9,11 +9,11 @@
       <div class="border-b border-tf-border border-t border-tf-border mx-0 my-tf-1 grid gap-tf-1 py-tf-2 text-tf-tertiary text-xs" role="group" aria-label="Theme preference">
         <span class="px-tf-3">Theme</span>
         <button class="rounded-tf-sm border-0 bg-transparent p-tf-2 px-tf-3 text-left text-sm text-tf-primary cursor-pointer hover:bg-tf-action-secondary-hover focus-visible:outline-2 focus-visible:outline-tf-focus focus-visible:outline-offset-[-2px]"
-                type="button" [class.bg-tf-action-secondary-hover]="preference() === 'system'" (click)="setTheme('system')">System</button>
+                type="button" [class.bg-tf-action-secondary-hover]="preference() === 'system'" (click)="setTheme('system'); close()">System</button>
         <button class="rounded-tf-sm border-0 bg-transparent p-tf-2 px-tf-3 text-left text-sm text-tf-primary cursor-pointer hover:bg-tf-action-secondary-hover focus-visible:outline-2 focus-visible:outline-tf-focus focus-visible:outline-offset-[-2px]"
-                type="button" [class.bg-tf-action-secondary-hover]="preference() === 'light'" (click)="setTheme('light')">Light</button>
+                type="button" [class.bg-tf-action-secondary-hover]="preference() === 'light'" (click)="setTheme('light'); close()">Light</button>
         <button class="rounded-tf-sm border-0 bg-transparent p-tf-2 px-tf-3 text-left text-sm text-tf-primary cursor-pointer hover:bg-tf-action-secondary-hover focus-visible:outline-2 focus-visible:outline-tf-focus focus-visible:outline-offset-[-2px]"
-                type="button" [class.bg-tf-action-secondary-hover]="preference() === 'dark'" (click)="setTheme('dark')">Dark</button>
+                type="button" [class.bg-tf-action-secondary-hover]="preference() === 'dark'" (click)="setTheme('dark'); close()">Dark</button>
       </div>
       <button class="rounded-tf-sm border-0 bg-transparent p-tf-2 px-tf-3 text-left text-sm text-tf-danger cursor-pointer hover:bg-tf-action-secondary-hover focus-visible:outline-2 focus-visible:outline-tf-focus focus-visible:outline-offset-[-2px]"
               type="button" role="menuitem" (click)="logoutRequested.emit(); close()">Log out</button>

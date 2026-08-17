@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, exhaustMap, map, of, tap } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
+import { ToastService } from '../../shared/ui/toast/toast.service';
 import * as AuthActions from './auth.actions';
 
 @Injectable()
@@ -10,6 +11,7 @@ export class AuthEffects {
   private readonly actions$ = inject(Actions);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly toast = inject(ToastService);
 
   readonly login$ = createEffect(() =>
     this.actions$.pipe(
@@ -27,7 +29,10 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(AuthActions.loginSuccess),
-        tap(() => this.router.navigate(['/dashboard'])),
+        tap(() => {
+          this.toast.show('Logged in successfully.', 'success');
+          this.router.navigate(['/dashboard']);
+        }),
       ),
     { dispatch: false },
   );
@@ -48,7 +53,10 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(AuthActions.registerSuccess),
-        tap(() => this.router.navigate(['/dashboard'])),
+        tap(() => {
+          this.toast.show('Account created successfully.', 'success');
+          this.router.navigate(['/dashboard']);
+        }),
       ),
     { dispatch: false },
   );
@@ -69,7 +77,10 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(AuthActions.logoutComplete),
-        tap(() => this.router.navigate(['/login'])),
+        tap(() => {
+          this.toast.show('Logged out.', 'info');
+          this.router.navigate(['/login']);
+        }),
       ),
     { dispatch: false },
   );

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, exhaustMap, forkJoin, map, of, switchMap, tap } from 'rxjs';
 import { BatchService } from '../../core/services/batch.service';
+import { ToastService } from '../../shared/ui/toast/toast.service';
 import * as BatchActions from './batch.actions';
 
 @Injectable()
@@ -10,6 +11,7 @@ export class BatchEffects {
   private readonly actions$ = inject(Actions);
   private readonly batchService = inject(BatchService);
   private readonly router = inject(Router);
+  private readonly toast = inject(ToastService);
 
   readonly loadBatches$ = createEffect(() =>
     this.actions$.pipe(
@@ -63,7 +65,10 @@ export class BatchEffects {
     () =>
       this.actions$.pipe(
         ofType(BatchActions.createBatchSuccess),
-        tap(({ batch }) => this.router.navigate(['/batches', batch.id])),
+        tap(({ batch }) => {
+          this.toast.show(`Batch ${batch.batchNumber} created.`, 'success');
+          this.router.navigate(['/batches', batch.id]);
+        }),
       ),
     { dispatch: false },
   );
@@ -78,6 +83,36 @@ export class BatchEffects {
         ),
       ),
     ),
+  );
+
+  readonly updateStatusSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(BatchActions.updateBatchStatusSuccess),
+        tap(() => this.toast.show('Status updated successfully.', 'success')),
+      ),
+    { dispatch: false },
+  );
+
+  readonly archiveBatch$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(BatchActions.archiveBatch),
+      exhaustMap(({ id }) =>
+        this.batchService.archiveBatch(id).pipe(
+          map((batch) => BatchActions.archiveBatchSuccess({ batch })),
+          catchError((err) => of(BatchActions.archiveBatchFailure({ error: err.error?.message ?? 'Failed to archive batch.' }))),
+        ),
+      ),
+    ),
+  );
+
+  readonly archiveBatchSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(BatchActions.archiveBatchSuccess),
+        tap(() => this.toast.show('Batch archived successfully.', 'success')),
+      ),
+    { dispatch: false },
   );
 
   readonly loadDashboardStats$ = createEffect(() =>

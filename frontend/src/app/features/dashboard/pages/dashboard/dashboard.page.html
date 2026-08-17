@@ -6,6 +6,11 @@
     </div>
 
     <div class="mb-tf-8 grid grid-cols-1 gap-tf-4 sm:grid-cols-3">
+      @if (statsError()) {
+        <div class="col-span-full">
+          <app-error-state [description]="statsError()!" [showRetry]="true" (retry)="retryStats()" />
+        </div>
+      } @else {
       <app-card padding="lg">
         <div class="grid gap-tf-1">
           <p class="m-0 text-sm font-medium text-tf-secondary">Total Batches</p>
@@ -38,6 +43,7 @@
           }
         </div>
       </app-card>
+      }
     </div>
 
     <div>
@@ -46,15 +52,16 @@
         <a class="text-sm font-medium text-tf-link no-underline hover:underline focus-visible:outline-2 focus-visible:outline-tf-focus focus-visible:outline-offset-2" routerLink="/batches">View all</a>
       </div>
 
+      @if (recentError()) {
+        <app-error-state [description]="recentError()!" [showRetry]="true" (retry)="retryRecent()" />
+      } @else {
       <app-card variant="outlined" padding="none">
         @if (recentLoading()) {
           <div class="flex items-center justify-center p-tf-10">
             <app-loading-spinner size="md" />
           </div>
         } @else if (recentBatches().length === 0) {
-          <div class="p-tf-10 text-center">
-            <p class="m-0 text-sm text-tf-secondary">No batches found.</p>
-          </div>
+          <app-empty-state title="No batches" description="No batches have been created yet." />
         } @else {
           <div class="divide-y divide-tf-border">
             @for (batch of recentBatches(); track batch.id) {
@@ -69,6 +76,7 @@
           </div>
         }
       </app-card>
+      }
     </div>
   </div>
 </main>

@@ -17,6 +17,7 @@ export interface BatchDetailState {
   traceEvents: TraceEvent[];
   loading: boolean;
   error: string | null;
+  updateError: string | null;
 }
 
 export interface BatchCreateState {
@@ -29,6 +30,8 @@ export interface DashboardState {
   recentBatches: Batch[];
   statsLoading: boolean;
   recentLoading: boolean;
+  statsError: string | null;
+  recentBatchesError: string | null;
 }
 
 export interface BatchState {
@@ -53,6 +56,7 @@ const initialDetailState: BatchDetailState = {
   traceEvents: [],
   loading: false,
   error: null,
+  updateError: null,
 };
 
 const initialCreateState: BatchCreateState = {
@@ -65,6 +69,8 @@ const initialDashboardState: DashboardState = {
   recentBatches: [],
   statsLoading: false,
   recentLoading: false,
+  statsError: null,
+  recentBatchesError: null,
 };
 
 const initialState: BatchState = {
@@ -142,8 +148,26 @@ export const batchReducer = createReducer(
   })),
 
   // Update status
+  on(BatchActions.updateBatchStatus, (state) => ({
+    ...state,
+    detail: { ...state.detail, updateError: null },
+  })),
   on(BatchActions.updateBatchStatusSuccess, (state, { batch }) => ({
     ...state,
+    detail: { ...state.detail, batch, updateError: null },
+  })),
+  on(BatchActions.updateBatchStatusFailure, (state, { error }) => ({
+    ...state,
+    detail: { ...state.detail, updateError: error },
+  })),
+
+  // Archive
+  on(BatchActions.archiveBatchSuccess, (state, { batch }) => ({
+    ...state,
+    list: {
+      ...state.list,
+      batches: state.list.batches.map((b) => (b.id === batch.id ? batch : b)),
+    },
     detail: { ...state.detail, batch },
   })),
 
@@ -158,7 +182,7 @@ export const batchReducer = createReducer(
   })),
   on(BatchActions.loadDashboardStatsFailure, (state) => ({
     ...state,
-    dashboard: { ...state.dashboard, statsLoading: false },
+    dashboard: { ...state.dashboard, statsLoading: false, statsError: 'Failed to load dashboard stats.' },
   })),
 
   on(BatchActions.loadRecentBatches, (state) => ({
@@ -171,6 +195,6 @@ export const batchReducer = createReducer(
   })),
   on(BatchActions.loadRecentBatchesFailure, (state) => ({
     ...state,
-    dashboard: { ...state.dashboard, recentLoading: false },
+    dashboard: { ...state.dashboard, recentLoading: false, recentBatchesError: 'Failed to load recent batches.' },
   })),
 );

@@ -1,6 +1,6 @@
 import { UserRole } from './auth.models';
 
-export type BatchStatus = 'HARVESTED' | 'PROCESSING' | 'QUALITY_CHECK' | 'IN_TRANSIT' | 'DELIVERED';
+export type BatchStatus = 'HARVESTED' | 'PROCESSING' | 'QUALITY_CHECK' | 'IN_TRANSIT' | 'DELIVERED' | 'ARCHIVED';
 
 export const BATCH_STATUS_LABELS: Record<BatchStatus, string> = {
   HARVESTED: 'Harvested',
@@ -8,6 +8,7 @@ export const BATCH_STATUS_LABELS: Record<BatchStatus, string> = {
   QUALITY_CHECK: 'Quality Check',
   IN_TRANSIT: 'In Transit',
   DELIVERED: 'Delivered',
+  ARCHIVED: 'Archived',
 };
 
 export const BATCH_STATUSES: readonly BatchStatus[] = ['HARVESTED', 'PROCESSING', 'QUALITY_CHECK', 'IN_TRANSIT', 'DELIVERED'];

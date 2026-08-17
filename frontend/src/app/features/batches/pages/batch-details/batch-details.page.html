@@ -10,15 +10,22 @@
       <div class="flex items-center justify-center p-tf-16">
         <app-loading-spinner size="lg" />
       </div>
+    } @else if (batchError()) {
+      <app-error-state [description]="batchError()!" [showRetry]="true" (retry)="retry()" />
     } @else if (batch(); as batch) {
       <div class="mb-tf-8 flex flex-col gap-tf-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h1 class="m-0 mb-tf-1 text-2xl font-bold text-tf-primary md:text-3xl">{{ batch.batchNumber }}</h1>
           <p class="m-0 text-sm text-tf-secondary">{{ batch.productName }}</p>
         </div>
-        @if (role() === 'OPERATOR' && batch.currentStatus !== 'DELIVERED') {
-          <app-button (pressed)="openDrawer()">Update Status</app-button>
-        }
+        <div class="flex gap-tf-2">
+          @if (role() === 'OPERATOR' && batch.currentStatus !== 'DELIVERED' && batch.currentStatus !== 'ARCHIVED') {
+            <app-button (pressed)="openDrawer()">Update Status</app-button>
+          }
+          @if (role() === 'ADMIN' && batch.currentStatus !== 'ARCHIVED') {
+            <app-button variant="secondary" (pressed)="archiveBatch()">Archive</app-button>
+          }
+        </div>
       </div>
 
       <div class="mb-tf-8 grid grid-cols-1 gap-tf-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -44,9 +51,7 @@
         <h2 class="m-0 mb-tf-4 text-lg font-semibold text-tf-primary">Traceability Timeline</h2>
 
         @if (traceEvents().length === 0) {
-          <app-card variant="outlined" padding="lg">
-            <p class="m-0 text-center text-sm text-tf-secondary">No trace events recorded yet.</p>
-          </app-card>
+          <app-empty-state title="No trace events" description="No trace events have been recorded for this batch." />
         } @else {
           <div class="relative ml-tf-4 border-l-2 border-tf-border pl-tf-8">
             @for (event of traceEvents(); track event.id; let last = $last) {
@@ -76,11 +81,16 @@
 
     <app-drawer [open]="drawerOpen()" position="right" title="Update Status" (closed)="closeDrawer()">
       <form class="grid gap-tf-5" [formGroup]="form" (ngSubmit)="onSubmit()">
-        <app-form-field controlId="update-status" label="New status" [required]="true" [error]="submitted() && form.controls.status.hasError('required') ? 'Status is required.' : ''">
-          <app-select inputId="update-status" placeholder="Select status" [options]="nextStatuses()" formControlName="status" [invalid]="submitted() && form.controls.status.hasError('required')" />
+        @if (updateError()) {
+          <div class="rounded-tf-md border border-tf-danger bg-tf-danger-subtle px-tf-4 py-tf-3 text-sm text-tf-primary">
+            {{ updateError() }}
+          </div>
+        }
+        <app-form-field controlId="update-status" label="New status" [required]="true" [error]="(submitted() || form.controls.status.touched) && form.controls.status.hasError('required') ? 'Status is required.' : ''">
+          <app-select inputId="update-status" placeholder="Select status" [options]="nextStatuses()" formControlName="status" [invalid]="(submitted() || form.controls.status.touched) && form.controls.status.hasError('required')" />
         </app-form-field>
-        <app-form-field controlId="update-location" label="Location" [required]="true" [error]="submitted() && form.controls.location.hasError('required') ? 'Location is required.' : ''">
-          <app-input inputId="update-location" placeholder="Enter current location" formControlName="location" [invalid]="submitted() && form.controls.location.hasError('required')" />
+        <app-form-field controlId="update-location" label="Location" [required]="true" [error]="(submitted() || form.controls.location.touched) && form.controls.location.hasError('required') ? 'Location is required.' : ''">
+          <app-input inputId="update-location" placeholder="Enter current location" formControlName="location" [invalid]="(submitted() || form.controls.location.touched) && form.controls.location.hasError('required')" />
         </app-form-field>
         <app-form-field controlId="update-notes" label="Notes">
           <app-textarea inputId="update-notes" placeholder="Optional notes about this update" formControlName="notes" [rows]="3" />

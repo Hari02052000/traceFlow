@@ -26,6 +26,11 @@ export const updateBatchStatus = createAction('[Batch] Update Status', props<{ i
 export const updateBatchStatusSuccess = createAction('[Batch] Update Status Success', props<{ batch: Batch }>());
 export const updateBatchStatusFailure = createAction('[Batch] Update Status Failure', props<{ error: string }>());
 
+// Archive
+export const archiveBatch = createAction('[Batch] Archive Batch', props<{ id: string }>());
+export const archiveBatchSuccess = createAction('[Batch] Archive Batch Success', props<{ batch: Batch }>());
+export const archiveBatchFailure = createAction('[Batch] Archive Batch Failure', props<{ error: string }>());
+
 // Dashboard
 export const loadDashboardStats = createAction('[Batch] Load Dashboard Stats');
 export const loadDashboardStatsSuccess = createAction('[Batch] Load Dashboard Stats Success', props<{ stats: DashboardStats }>());

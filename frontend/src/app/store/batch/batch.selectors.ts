@@ -18,6 +18,7 @@ export const selectCurrentBatch = createSelector(selectBatchDetail, (detail) => 
 export const selectTraceEvents = createSelector(selectBatchDetail, (detail) => detail.traceEvents);
 export const selectBatchDetailLoading = createSelector(selectBatchDetail, (detail) => detail.loading);
 export const selectBatchDetailError = createSelector(selectBatchDetail, (detail) => detail.error);
+export const selectBatchDetailUpdateError = createSelector(selectBatchDetail, (detail) => detail.updateError);
 
 // Create
 const selectBatchCreate = createSelector(selectBatchState, (state) => state.create);
@@ -30,3 +31,5 @@ export const selectDashboardStats = createSelector(selectDashboard, (dashboard) 
 export const selectRecentBatches = createSelector(selectDashboard, (dashboard) => dashboard.recentBatches);
 export const selectDashboardStatsLoading = createSelector(selectDashboard, (dashboard) => dashboard.statsLoading);
 export const selectRecentBatchesLoading = createSelector(selectDashboard, (dashboard) => dashboard.recentLoading);
+export const selectDashboardStatsError = createSelector(selectDashboard, (dashboard) => dashboard.statsError);
+export const selectRecentBatchesError = createSelector(selectDashboard, (dashboard) => dashboard.recentBatchesError);
