@@ -31,6 +31,11 @@ export const archiveBatch = createAction('[Batch] Archive Batch', props<{ id: st
 export const archiveBatchSuccess = createAction('[Batch] Archive Batch Success', props<{ batch: Batch }>());
 export const archiveBatchFailure = createAction('[Batch] Archive Batch Failure', props<{ error: string }>());
 
+// Unarchive
+export const unarchiveBatch = createAction('[Batch] Unarchive Batch', props<{ id: string }>());
+export const unarchiveBatchSuccess = createAction('[Batch] Unarchive Batch Success', props<{ batch: Batch }>());
+export const unarchiveBatchFailure = createAction('[Batch] Unarchive Batch Failure', props<{ error: string }>());
+
 // Dashboard
 export const loadDashboardStats = createAction('[Batch] Load Dashboard Stats');
 export const loadDashboardStatsSuccess = createAction('[Batch] Load Dashboard Stats Success', props<{ stats: DashboardStats }>());

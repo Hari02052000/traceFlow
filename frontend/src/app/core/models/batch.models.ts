@@ -11,7 +11,7 @@ export const BATCH_STATUS_LABELS: Record<BatchStatus, string> = {
   ARCHIVED: 'Archived',
 };
 
-export const BATCH_STATUSES: readonly BatchStatus[] = ['HARVESTED', 'PROCESSING', 'QUALITY_CHECK', 'IN_TRANSIT', 'DELIVERED'];
+export const BATCH_STATUSES: readonly BatchStatus[] = ['HARVESTED', 'PROCESSING', 'QUALITY_CHECK', 'IN_TRANSIT', 'DELIVERED', 'ARCHIVED'];
 
 export interface Batch {
   id: string;

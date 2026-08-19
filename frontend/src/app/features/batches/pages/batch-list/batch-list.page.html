@@ -38,6 +38,9 @@
                   @if (isAdmin() === 'ADMIN' && batch.currentStatus !== 'ARCHIVED') {
                     <app-button variant="secondary" size="sm" (pressed)="archive($event, batch.id)">Archive</app-button>
                   }
+                  @if (isAdmin() === 'ADMIN' && batch.currentStatus === 'ARCHIVED') {
+                    <app-button variant="secondary" size="sm" (pressed)="unarchive($event, batch.id)">Unarchive</app-button>
+                  }
                 </div>
               </div>
               <div class="flex items-center justify-between text-xs text-tf-secondary">
@@ -75,7 +78,9 @@
                   <td class="whitespace-nowrap px-tf-5 py-tf-4 text-sm text-tf-secondary">{{ batch.createdAt | date:'mediumDate' }}</td>
                   @if (isAdmin() === 'ADMIN') {
                     <td class="whitespace-nowrap px-tf-5 py-tf-4">
-                      @if (batch.currentStatus !== 'ARCHIVED') {
+                      @if (batch.currentStatus === 'ARCHIVED') {
+                        <app-button variant="secondary" size="sm" (pressed)="unarchive($event, batch.id)">Unarchive</app-button>
+                      } @else {
                         <app-button variant="secondary" size="sm" (pressed)="archive($event, batch.id)">Archive</app-button>
                       }
                     </td>

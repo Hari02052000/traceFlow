@@ -183,6 +183,16 @@ export const batchReducer = createReducer(
     detail: { ...state.detail, archiveError: error },
   })),
 
+  // Unarchive
+  on(BatchActions.unarchiveBatchSuccess, (state, { batch }) => ({
+    ...state,
+    list: {
+      ...state.list,
+      batches: state.list.batches.map((b) => (b.id === batch.id ? batch : b)),
+    },
+    detail: { ...state.detail, batch },
+  })),
+
   // Dashboard
   on(BatchActions.loadDashboardStats, (state) => ({
     ...state,

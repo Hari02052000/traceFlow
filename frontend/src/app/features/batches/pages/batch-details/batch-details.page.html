@@ -19,11 +19,14 @@
           <p class="m-0 text-sm text-tf-secondary">{{ batch.productName }}</p>
         </div>
         <div class="flex gap-tf-2">
-          @if (role() === 'OPERATOR' && batch.currentStatus !== 'DELIVERED' && batch.currentStatus !== 'ARCHIVED') {
+          @if ((role() === 'OPERATOR' || role() === 'ADMIN') && batch.currentStatus !== 'DELIVERED' && batch.currentStatus !== 'ARCHIVED') {
             <app-button (pressed)="openDrawer()">Update Status</app-button>
           }
+          @if (role() === 'ADMIN' && batch.currentStatus === 'ARCHIVED') {
+            <app-button (pressed)="unarchiveBatch()">Unarchive</app-button>
+          }
           @if (role() === 'ADMIN' && batch.currentStatus !== 'ARCHIVED') {
-            <app-button variant="secondary" (pressed)="archiveBatch()">Archive</app-button>
+            <app-button variant="secondary" (pressed)="confirmArchive()">Archive</app-button>
           }
         </div>
         @if (archiveError()) {
@@ -106,5 +109,15 @@
         </div>
       </form>
     </app-drawer>
+
+    <app-confirmation-dialog
+      [open]="archiveConfirmOpen()"
+      title="Archive Batch"
+      [message]="'Are you sure you want to archive ' + batch()?.batchNumber + '? This will remove it from the active workflow.'"
+      confirmLabel="Archive"
+      variant="danger"
+      (confirmed)="archiveBatch()"
+      (cancelled)="archiveConfirmOpen.set(false)"
+    />
   </div>
 </main>

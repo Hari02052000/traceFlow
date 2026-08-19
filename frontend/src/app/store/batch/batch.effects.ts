@@ -124,6 +124,52 @@ export class BatchEffects {
     { dispatch: false },
   );
 
+  readonly unarchiveBatch$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(BatchActions.unarchiveBatch),
+      exhaustMap(({ id }) =>
+        this.batchService.unarchiveBatch(id).pipe(
+          map((batch) => BatchActions.unarchiveBatchSuccess({ batch })),
+          catchError((err) => of(BatchActions.unarchiveBatchFailure({ error: err.error?.error?.message ?? 'Failed to unarchive batch.' }))),
+        ),
+      ),
+    ),
+  );
+
+  readonly unarchiveBatchSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(BatchActions.unarchiveBatchSuccess),
+        tap(() => this.toast.show('Batch unarchived successfully.', 'success')),
+      ),
+    { dispatch: false },
+  );
+
+  readonly unarchiveBatchFailure$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(BatchActions.unarchiveBatchFailure),
+        tap(({ error }) => this.toast.show(error, 'error')),
+      ),
+    { dispatch: false },
+  );
+
+  readonly reloadTracesAfterStatusChange$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        BatchActions.updateBatchStatusSuccess,
+        BatchActions.archiveBatchSuccess,
+        BatchActions.unarchiveBatchSuccess,
+      ),
+      switchMap(({ batch }) =>
+        this.batchService.getTraceEvents(batch.id).pipe(
+          map((events) => BatchActions.loadTraceEventsSuccess({ batchId: batch.id, events })),
+          catchError(() => of(BatchActions.loadTraceEventsFailure({ error: 'Failed to reload trace events.' }))),
+        ),
+      ),
+    ),
+  );
+
   readonly loadDashboardStats$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BatchActions.loadDashboardStats),

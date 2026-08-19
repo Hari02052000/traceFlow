@@ -38,6 +38,10 @@ export class BatchService {
     return this.http.patch<Batch>(`${this.baseUrl}/batches/${id}/archive`, {}, { withCredentials: true });
   }
 
+  unarchiveBatch(id: string): Observable<Batch> {
+    return this.http.patch<Batch>(`${this.baseUrl}/batches/${id}/unarchive`, {}, { withCredentials: true });
+  }
+
   getTraceEvents(batchId: string): Observable<TraceEvent[]> {
     return this.http.get<TraceEvent[]>(`${this.baseUrl}/batches/${batchId}/traces`, { withCredentials: true });
   }

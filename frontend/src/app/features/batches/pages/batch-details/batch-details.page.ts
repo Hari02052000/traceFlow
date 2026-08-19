@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { ButtonComponent } from '../../../../shared/ui/button/button.component';
 import { CardComponent } from '../../../../shared/ui/card/card.component';
+import { ConfirmationDialogComponent } from '../../../../shared/ui/confirmation-dialog/confirmation-dialog.component';
 import { DrawerComponent } from '../../../../shared/ui/drawer/drawer.component';
 import { EmptyStateComponent } from '../../../../shared/ui/empty-state/empty-state.component';
 import { ErrorStateComponent } from '../../../../shared/ui/error-state/error-state.component';
@@ -16,14 +17,14 @@ import { SelectComponent, SelectOption } from '../../../../shared/ui/select/sele
 import { StatusBadgeComponent } from '../../../../shared/ui/status-badge/status-badge.component';
 import { TextareaComponent } from '../../../../shared/ui/textarea/textarea.component';
 import { BATCH_STATUS_LABELS, BatchStatus } from '../../../../core/models/batch.models';
-import { archiveBatch, loadBatch, updateBatchStatus } from '../../../../store/batch/batch.actions';
+import { archiveBatch, loadBatch, unarchiveBatch, updateBatchStatus } from '../../../../store/batch/batch.actions';
 import { selectBatchDetailArchiveError, selectBatchDetailError, selectBatchDetailLoading, selectBatchDetailUpdateError, selectBatchDetailUpdateLoading, selectCurrentBatch, selectTraceEvents } from '../../../../store/batch/batch.selectors';
 import { selectUserRole } from '../../../../store/auth/auth.selectors';
 
 @Component({
   selector: 'app-batch-details-page',
   standalone: true,
-  imports: [ButtonComponent, CardComponent, DatePipe, DrawerComponent, EmptyStateComponent, ErrorStateComponent, FormFieldComponent, InputComponent, LoadingSpinnerComponent, ReactiveFormsModule, RouterLink, SelectComponent, StatusBadgeComponent, TextareaComponent],
+  imports: [ButtonComponent, CardComponent, ConfirmationDialogComponent, DatePipe, DrawerComponent, EmptyStateComponent, ErrorStateComponent, FormFieldComponent, InputComponent, LoadingSpinnerComponent, ReactiveFormsModule, RouterLink, SelectComponent, StatusBadgeComponent, TextareaComponent],
   templateUrl: './batch-details.page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -44,6 +45,7 @@ export class BatchDetailsPage implements OnInit, OnDestroy {
   protected readonly drawerOpen = signal(false);
   protected readonly submitted = signal(false);
   protected readonly updateSuccess = signal(false);
+  protected readonly archiveConfirmOpen = signal(false);
 
   private readonly closeDrawerOnSuccess = effect(() => {
     const error = this.updateError();
@@ -131,10 +133,22 @@ export class BatchDetailsPage implements OnInit, OnDestroy {
     return [{ value: next, label: BATCH_STATUS_LABELS[next] }];
   }
 
+  protected confirmArchive(): void {
+    this.archiveConfirmOpen.set(true);
+  }
+
   protected archiveBatch(): void {
+    this.archiveConfirmOpen.set(false);
     const batchId = this.batch()?.id;
     if (batchId) {
       this.store.dispatch(archiveBatch({ id: batchId }));
+    }
+  }
+
+  protected unarchiveBatch(): void {
+    const batchId = this.batch()?.id;
+    if (batchId) {
+      this.store.dispatch(unarchiveBatch({ id: batchId }));
     }
   }
 

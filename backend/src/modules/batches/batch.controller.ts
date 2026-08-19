@@ -39,6 +39,12 @@ export class BatchController {
     sendSuccess(res, batch);
   }
 
+  async unarchive(req: Request, res: Response): Promise<void> {
+    const id = req.params['id'] as string;
+    const batch = await batchService.unarchiveBatch(id, req.user!.id);
+    sendSuccess(res, batch);
+  }
+
   async getTraces(req: Request, res: Response): Promise<void> {
     const id = req.params['id'] as string;
     const events = await batchService.getTraceEvents(id);

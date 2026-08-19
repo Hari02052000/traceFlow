@@ -93,6 +93,33 @@ export class BatchService {
     return this.formatBatch(updated!);
   }
 
+  async unarchiveBatch(batchId: string, userId: string) {
+    const batch = await batchRepository.findById(batchId);
+    if (!batch) {
+      throw new AppError('Batch not found', 404, 'BATCH_NOT_FOUND');
+    }
+
+    if (batch.currentStatus !== 'ARCHIVED') {
+      throw new AppError('Batch is not archived', 400, 'NOT_ARCHIVED');
+    }
+
+    const events = await traceEventRepository.findByBatchId(batchId);
+    const archiveIndex = events.findIndex((e) => e.status === 'ARCHIVED');
+    const previousStatus = archiveIndex > 0 ? events[archiveIndex - 1].status : 'DELIVERED';
+
+    const updated = await batchRepository.updateStatus(batchId, previousStatus);
+
+    await traceEventRepository.create({
+      batchId,
+      status: previousStatus,
+      location: 'System',
+      notes: 'Batch unarchived',
+      updatedBy: userId,
+    });
+
+    return this.formatBatch(updated!);
+  }
+
   async getBatches(query: {
     page?: number;
     limit?: number;

@@ -13,7 +13,7 @@ import { SearchInputComponent } from '../../../../shared/ui/search-input/search-
 import { SelectComponent, SelectOption } from '../../../../shared/ui/select/select.component';
 import { StatusBadgeComponent } from '../../../../shared/ui/status-badge/status-badge.component';
 import { BATCH_STATUS_LABELS, BATCH_STATUSES, BatchStatus } from '../../../../core/models/batch.models';
-import { loadBatches, archiveBatch } from '../../../../store/batch/batch.actions';
+import { loadBatches, archiveBatch, unarchiveBatch } from '../../../../store/batch/batch.actions';
 import { selectBatchListError, selectBatchListLoading, selectBatchListPage, selectBatchListTotalPages, selectBatches } from '../../../../store/batch/batch.selectors';
 import { selectUserRole } from '../../../../store/auth/auth.selectors';
 
@@ -72,6 +72,12 @@ export class BatchListPage implements OnInit {
     event.stopPropagation();
     event.preventDefault();
     this.store.dispatch(archiveBatch({ id }));
+  }
+
+  protected unarchive(event: MouseEvent, id: string): void {
+    event.stopPropagation();
+    event.preventDefault();
+    this.store.dispatch(unarchiveBatch({ id }));
   }
 
   private loadBatches(): void {

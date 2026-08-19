@@ -14,7 +14,8 @@ router.get('/', validate(batchListQuerySchema, 'query'), asyncHandler(batchContr
 router.get('/:id', asyncHandler(batchController.getById));
 router.get('/:id/traces', asyncHandler(batchController.getTraces));
 router.post('/', requireRole('ADMIN'), validate(createBatchSchema), asyncHandler(batchController.create));
-router.patch('/:id/status', requireRole('OPERATOR'), validate(updateStatusSchema), asyncHandler(batchController.updateStatus));
+router.patch('/:id/status', requireRole('ADMIN', 'OPERATOR'), validate(updateStatusSchema), asyncHandler(batchController.updateStatus));
 router.patch('/:id/archive', requireRole('ADMIN'), asyncHandler(batchController.archive));
+router.patch('/:id/unarchive', requireRole('ADMIN'), asyncHandler(batchController.unarchive));
 
 export { router as batchRoutes };
